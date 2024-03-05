@@ -2,14 +2,6 @@ import sys
 import subprocess
 import json
 
-FILENAME = sys.argv[1]
-BINARY_NAME = (FILENAME.split('/'))[-1]
-
-# --- COMMAND ---
-FILE_CMD = ['file', '-b', FILENAME]
-CHECKSEC_CMD = ['checksec', '--output=json', '--file=' + FILENAME]
-STRINGS_CMD = ['strings', FILENAME]
-
 VULN_FUNCTIONS = [
     'gets',
     'strcpy',
@@ -19,8 +11,12 @@ VULN_FUNCTIONS = [
     'printf'
 ]
 
-def filter_file_output(output):
-    output_list = output.split(', ')
+def filter_file_output(FILENAME):
+
+    FILE_CMD = ['file', '-b', FILENAME]
+    file_cmd_output = subprocess.check_output(FILE_CMD, universal_newlines=True)
+
+    output_list = file_cmd_output.split(', ')
     file_cmd_info = {
         "format": ((output_list[0]).split(' '))[0],
         "bit": 32 if ((output_list[0]).split(' '))[1] == "32-bit" else 64,
@@ -29,32 +25,34 @@ def filter_file_output(output):
     }
     return file_cmd_info
 
-def filter_checksec_output(output):
-    output_list = json.loads(output)[FILENAME]
+def filter_checksec_output(FILENAME):
+
+    CHECKSEC_CMD = ['checksec', '--output=json', '--file=' + FILENAME]
+    checksec_cmd_output = subprocess.check_output(CHECKSEC_CMD, universal_newlines=True)
+
+    output_list = json.loads(checksec_cmd_output)[FILENAME]
     return output_list
 
-def filter_strings_output(output):
+def filter_strings_output(FILENAME):
+
+    STRINGS_CMD = ['strings', FILENAME]
+    strings_cmd_output = subprocess.check_output(STRINGS_CMD, universal_newlines=True)
 
     vulnerable_functions = []
 
     for function in VULN_FUNCTIONS:
-        if function in output:
+        if function in strings_cmd_output:
             vulnerable_functions.append(function)
 
     return {
         'vulnerable_functions': vulnerable_functions
     }
 
-def main():
-    file_cmd_output = subprocess.check_output(FILE_CMD, universal_newlines=True)
-    obj_binary_info = filter_file_output(file_cmd_output)
+def analyse(FILENAME):
+    obj_binary_info = filter_file_output(FILENAME)
 
-    checksec_cmd_output = subprocess.check_output(CHECKSEC_CMD, universal_newlines=True)
-    obj_binary_info.update(filter_checksec_output(checksec_cmd_output))
+    obj_binary_info.update(filter_checksec_output(FILENAME))
 
-    strings_cmd_output = subprocess.check_output(STRINGS_CMD, universal_newlines=True)
-    obj_binary_info.update(filter_strings_output(strings_cmd_output))
+    obj_binary_info.update(filter_strings_output(FILENAME))
 
     print(obj_binary_info)
-
-main()
