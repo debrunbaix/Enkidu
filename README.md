@@ -46,7 +46,23 @@ Enkidu est un projet open-source développé dans le cadre d'un projet technique
 
 ## Fonctionnalités
 
-  
+- [ ] Enumération d'information binaire :
+
+    - [x] traitement de la commande `file`
+
+    - [x] traitement de la commande `checksec`
+
+    - [ ] traitement de la commande `strings`:
+
+        - [x] Fonctions
+
+        - [ ] Messages d'erreur/succès
+
+        - [ ] bibliothèques utilisées
+
+    - [ ] traitement de la commande `objdump`
+
+    - [ ] traitement de la commande `readelf`
 
 - [ ] Analyse automatique des binaires pour identifier les vulnérabilités.
 
