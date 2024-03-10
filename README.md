@@ -1,6 +1,6 @@
 # Enkidu
 
-![](/attachment/banner.png)
+![](/attachments/banner.png)
 
 Enkidu est un outil de pentest automatique spécialisé dans l'analyse et l'exploitation de binaires.
 
