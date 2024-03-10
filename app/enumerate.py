@@ -1,4 +1,3 @@
-import sys
 import subprocess
 import json
 
@@ -11,7 +10,19 @@ VULN_FUNCTIONS = [
     'printf'
 ]
 
-def filter_file_output(FILENAME):
+PRINTED_STRING_LIST = [
+    'pass', 'log', 'error', 'user', 'admin', 'name', 'credential', 'input', 'Enter', 'failed',
+    'password', 'auth', 'authenticate', 'authentication',
+    'login', 'logout', 'connect', 'disconnect',
+    'warning', 'invalid', 'unauthorized',
+    'username', 'user_id', 'user_name',
+    'input_data', 'input_field', 'enter',
+    'administrator', 'admin_id', 'authorization', 'permission',
+    'credentials', 'identity', 'ID',
+    'prompt', 'confirm', 'proceed', 'continue', 'success'
+]
+
+def file_cmd(FILENAME):
 
     FILE_CMD = ['file', '-b', FILENAME]
     file_cmd_output = subprocess.check_output(FILE_CMD, universal_newlines=True)
@@ -25,7 +36,7 @@ def filter_file_output(FILENAME):
     }
     return file_cmd_info
 
-def filter_checksec_output(FILENAME):
+def checksec_cmd(FILENAME):
 
     CHECKSEC_CMD = ['checksec', '--output=json', '--file=' + FILENAME]
     checksec_cmd_output = subprocess.check_output(CHECKSEC_CMD, universal_newlines=True)
@@ -33,26 +44,38 @@ def filter_checksec_output(FILENAME):
     output_list = json.loads(checksec_cmd_output)[FILENAME]
     return output_list
 
-def filter_strings_output(FILENAME):
+def strings_cmd(FILENAME):
 
     STRINGS_CMD = ['strings', FILENAME]
     strings_cmd_output = subprocess.check_output(STRINGS_CMD, universal_newlines=True)
 
+    printed_string = []
     vulnerable_functions = []
 
     for function in VULN_FUNCTIONS:
         if function in strings_cmd_output:
             vulnerable_functions.append(function)
 
+    for string in strings_cmd_output.splitlines():
+        for word in PRINTED_STRING_LIST:
+            if word.lower() in string.lower() and string not in printed_string:
+                printed_string.append(string)
+
     return {
+        'printed strings': printed_string,
         'vulnerable_functions': vulnerable_functions
     }
 
-def analyse(FILENAME):
-    obj_binary_info = filter_file_output(FILENAME)
+def ldd_cmd(FILENAME):
 
-    obj_binary_info.update(filter_checksec_output(FILENAME))
+    LDD_CMD = ['ldd', FILENAME]
+    ldd_cmd_output = subprocess.check_output(LDD_CMD, universal_newlines=True)
 
-    obj_binary_info.update(filter_strings_output(FILENAME))
+    library = []
 
-    print(obj_binary_info)
+    for lib in ldd_cmd_output.splitlines():
+        library.append(((lib.strip()).split(' '))[0])
+
+    return {
+        'library': library
+    }

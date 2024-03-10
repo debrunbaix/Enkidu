@@ -1,18 +1,10 @@
 # Enkidu
 
-  
-
 Enkidu est un outil de pentest automatique spécialisé dans l'analyse et l'exploitation de binaires.
-
-  
 
 ---
 
-  
-
 ## Table des matières
-
-  
 
 1. [Introduction](#introduction)
 
@@ -26,23 +18,27 @@ Enkidu est un outil de pentest automatique spécialisé dans l'analyse et l'expl
 
 6. [Licence](#licence)
 
-  
-
 ---
-
-  
 
 ## Introduction
 
-  
-
 Enkidu est un projet open-source développé dans le cadre d'un projet technique en master de cybersécurité. Inspiré par la figure mythique d'Enkidu, ce projet vise à fournir un outil robuste et automatisé pour les tests de pénétration sur des binaires, permettant aux chercheurs en sécurité de découvrir et d'exploiter des vulnérabilités.
 
-  
+### Information
+
+Pour la partie enumération du binaire, Enkidu utilise la sortie des commandes :
+
+- `file`
+
+- `checksec`
+
+- `strings`
+
+- `ldd`
+
+Ensuite, Enkidu traite la sortie de chacune de ces commandes afin de l'unifier dans un json qui servira de base pour l'analyse.
 
 ---
-
-  
 
 ## Fonctionnalités
 
@@ -52,13 +48,13 @@ Enkidu est un projet open-source développé dans le cadre d'un projet technique
 
     - [x] traitement de la commande `checksec`
 
-    - [ ] traitement de la commande `strings`:
+    - [x] traitement de la commande `strings`:
 
         - [x] Fonctions
 
-        - [ ] Messages d'erreur/succès
+        - [x] Messages d'erreur/succès
 
-        - [ ] bibliothèques utilisées
+    - [x] traitement de la commande `ldd`
 
     - [ ] traitement de la commande `objdump`
 
@@ -74,60 +70,46 @@ Enkidu est un projet open-source développé dans le cadre d'un projet technique
 
 ---
 
-  
-
 ## Installation
-
-  
 
 Pour installer Enkidu, suivez les étapes suivantes :
 
-  
-
 1. Clonez ce référentiel sur votre machine locale :
-
-  
 
 ```bash
 
-git clone https://github.com/votre-utilisateur/enkidu.git
+git clone https://github.com/Igaemas/Enkidu.git
 
 ```
-
-  
 
 2. Accédez au répertoire Enkidu :
 
-  
-
 ```bash
 
-cd enkidu
+cd enkidu/app
 
 ```
 
-  
+3. Installer les dépendances :
+
+```bash
+python -m pip install -m requirement.txt
+
+```
 
 ---
-
-  
 
 ## Utilisation
 
-
-  
+```bash
+python main.py <pathToFile>
+``` 
 
 ---
 
-  
-
 ## Contributions
 
-  
-
 Les contributions sont les bienvenues ! Pour contribuer à Enkidu, veuillez suivre ces étapes :
-
-  
 
 1. Fork le projet sur GitHub.
 
@@ -137,18 +119,10 @@ Les contributions sont les bienvenues ! Pour contribuer à Enkidu, veuillez suiv
 
 4. Soumettez une demande de tirage avec une description détaillée de vos modifications.
 
-  
-
 ---
-
-  
 
 ## Licence
 
-  
-
 Ce projet est sous licence [MIT](LICENSE).
-
-  
 
 ---
