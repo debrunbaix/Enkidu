@@ -1,3 +1,5 @@
 sys
 json
 subprocess
+capstone
+pyelftools

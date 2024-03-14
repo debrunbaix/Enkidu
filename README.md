@@ -40,6 +40,8 @@ Pour la partie enumération du binaire, Enkidu utilise la sortie des commandes :
 
 Ensuite, Enkidu traite la sortie de chacune de ces commandes afin de l'unifier dans un json qui servira de base pour l'analyse.
 
+Pour obtenir le code source du binaire, Enkidu utilise les libraries `elftools` & `capstone`.
+
 ---
 
 ## Fonctionnalités
@@ -57,6 +59,8 @@ Ensuite, Enkidu traite la sortie de chacune de ces commandes afin de l'unifier d
         - [x] Messages d'erreur/succès
 
     - [x] traitement de la commande `ldd`
+
+    - [x] Récupération des sections et du code assembleur du binaire
 
     - [ ] traitement de la commande `objdump`
 

@@ -1,6 +1,9 @@
 import subprocess
 import json
 
+#
+# List of vulnerable functions
+#
 VULN_FUNCTIONS = [
     'gets',
     'strcpy',
@@ -10,6 +13,9 @@ VULN_FUNCTIONS = [
     'printf'
 ]
 
+#
+# List of string to detect important printed string
+#
 PRINTED_STRING_LIST = [
     'pass', 'log', 'error', 'user', 'admin', 'name', 'credential', 'input', 'Enter', 'failed',
     'password', 'auth', 'authenticate', 'authentication',
@@ -22,6 +28,9 @@ PRINTED_STRING_LIST = [
     'prompt', 'confirm', 'proceed', 'continue', 'success'
 ]
 
+#
+# function to put the command 'file' information on an object
+#
 def file_cmd(FILENAME):
 
     FILE_CMD = ['file', '-b', FILENAME]
@@ -36,6 +45,9 @@ def file_cmd(FILENAME):
     }
     return file_cmd_info
 
+#
+# function to put the checksec command output in an object
+#
 def checksec_cmd(FILENAME):
 
     CHECKSEC_CMD = ['checksec', '--output=json', '--file=' + FILENAME]
@@ -44,10 +56,23 @@ def checksec_cmd(FILENAME):
     output_list = json.loads(checksec_cmd_output)[FILENAME]
     return output_list
 
+#
+# Function to analyse the strings command output and store it in object to get :
+#   - Vulnerable function
+#   - printed strings
+#
 def strings_cmd(FILENAME):
 
     STRINGS_CMD = ['strings', FILENAME]
-    strings_cmd_output = subprocess.check_output(STRINGS_CMD, universal_newlines=True)
+
+    try:
+        strings_cmd_output = subprocess.check_output(STRINGS_CMD, universal_newlines=True)
+    except:
+        print(f'error doing \'{"".join(STRINGS_CMD)}\' command')
+        return {
+        'printed strings': "error",
+        'vulnerable_functions': "error"
+    }
 
     printed_string = []
     vulnerable_functions = []
@@ -66,6 +91,9 @@ def strings_cmd(FILENAME):
         'vulnerable_functions': vulnerable_functions
     }
 
+#
+# Function to get library list of the binary
+#
 def ldd_cmd(FILENAME):
 
     LDD_CMD = ['ldd', FILENAME]
