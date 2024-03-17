@@ -108,7 +108,7 @@ python -m pip install -m requirement.txt
 ## Utilisation
 
 ```bash
-python main.py <pathToFile>
+python main.py <pathToBinary>
 ``` 
 
 ---
