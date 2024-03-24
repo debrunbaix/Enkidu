@@ -28,6 +28,9 @@ def main():
 
     binary_info.update(ldd_cmd(FILENAME))
 
+    print(json.dumps(binary_info, indent=4))
+
+
     #
     # Get source code of the binary
     #

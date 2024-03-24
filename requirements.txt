@@ -1,5 +1,2 @@
-sys
-json
-subprocess
-capstone
-pyelftools
+capstone==5.0.1
+pyelftools==0.31

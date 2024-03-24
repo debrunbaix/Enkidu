@@ -26,7 +26,9 @@ def get_assembly(elffile):
     for i in md.disasm(ops, addr):        
         print(f'0x{i.address:x}:\t{i.mnemonic}\t{i.op_str}')
 
-
+#
+# Function to get relocations informations.
+#
 def get_relocations(elffile):
     for section in elffile.iter_sections():
         if isinstance(section, RelocationSection):
@@ -48,7 +50,7 @@ def get_src_code(info, binary):
         sections = get_elf_binary_sections(elffile, sections)
     
     if len(sections) > 1 and '.text' in sections.values():
-        # get_assembly(elffile)
+        get_assembly(elffile)
         get_relocations(elffile)
 
     return 1
