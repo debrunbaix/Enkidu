@@ -51,13 +51,18 @@ def get_rodata_sections(elffile):
         decoded_strings = ops.decode('ascii', 'replace')
         print("Contents of .rodata section:")
         offset = 0
-        for line in decoded_strings.split('\x00'):  # Split sur les null bytes
+        rodata_list = []
+        for line in decoded_strings.split('\x00'):
             if line:
                 readable_line = ''.join((char if 32 <= ord(char) <= 126 else '.') for char in line)
-                print(f"0x{addr+offset:x}: {readable_line}")
-            offset += len(line) + 1  # +1 pour le null byte qui a été enlevé par split
+                # print(f"0x{addr+offset:x}: {readable_line}")
+                if readable_line != '.':
+                    rodata_list.append(readable_line)
+
+            offset += len(line) + 1
     except UnicodeDecodeError as e:
         print(f"[-] Error decoding .rodata: {e}")
+    return rodata_list
 
 #
 # Function to get relocations informations.
@@ -100,6 +105,6 @@ def get_src_code(info, binary):
             save_assembly_to_file(assembly_code, f'{info["name"]}_assembly_code.txt')
         
         if '.rodata' in sections.values():
-            get_rodata_sections(elffile)
+            rodata = get_rodata_sections(elffile)
 
-    return 1
+    return assembly_code, rodata

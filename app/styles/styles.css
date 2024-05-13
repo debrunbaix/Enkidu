@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'DejaVu Sans';
+    src: url('DejaVuSans.ttf');
+}
+
+body {
+    font-family: 'DejaVu Sans', sans-serif;
+    color: #333; /* Couleur de texte générale sombre pour un bon contraste */
+    line-height: 1.6;
+    margin: 20px;
+}
+
+div{
+    page-break-after: always; /* Force un saut de page après le titre h1 */
+}
+
+h1,h2{
+    color: orange; /* Titres en orange */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h3{
+    color: rgb(0, 234, 255); /* Titres en orange */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+code, pre {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background-color: #eee; /* Fond légèrement gris pour les blocs de code */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    display: block;
+    white-space: pre-wrap; /* Assure que le code ne déborde pas du bloc */
+}
+
+pre {
+    overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
+}
+
+a {
+    color: rgb(140, 61, 219);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%; /* Utilise la largeur complète du conteneur */
+    border-collapse: collapse; /* Les bordures des cellules sont fusionnées */
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid orange; /* Bordure grise pour les cellules */
+    padding: 8px; /* Espacement interne des cellules */
+    text-align: left; /* Alignement du texte à gauche */
+}
+
+th {
+    background-color: rgb(191, 204, 205); /* Fond gris clair pour les en-têtes de tableau */
+    color: #333; /* Texte sombre pour une bonne lisibilité */
+}
+
+td {
+    background-color: #fff; /* Fond blanc pour les cellules */
+}

@@ -1,8 +1,11 @@
 import sys
 import json
+import os
+import datetime
 from output_functions import output
 from enumerate import file_cmd, checksec_cmd, strings_cmd, ldd_cmd
 from get_src_code import get_src_code
+from report import generate_report
 
 def run_command(cmd_func, file_path, desc, binary_info):
     try:
@@ -19,6 +22,16 @@ def main():
     BINARY_NAME = (TARGET_FILE_PATH.split('/'))[-1]
 
     binary_info = {"name": BINARY_NAME}
+
+    # Obtention de la date actuelle sous la forme AAAA-MM-JJ
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    
+    # Création du nom du dossier
+    report_folder = f"{binary_info['name']}_report_{today}"
+    
+    # Création du dossier si nécessaire
+    if not os.path.exists(report_folder):
+        os.makedirs(report_folder)
 
     try:
         binary = open(TARGET_FILE_PATH, 'rb')
@@ -41,7 +54,14 @@ def main():
     #
     # Get source code of the binary
     #
-    get_src_code(binary_info, binary)
+    assembly_code, rodata_sections = get_src_code(binary_info, binary)
+
+    generate_report(
+        binary_info, 
+        TARGET_FILE_PATH, 
+        report_folder, 
+        assembly_code
+    )
 
     return 1
 
