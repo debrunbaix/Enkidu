@@ -42,6 +42,11 @@ Ensuite, Enkidu traite la sortie de chacune de ces commandes afin de l'unifier d
 
 Pour obtenir le code assembleur du binaire, Enkidu cherche dans le contenue des sections `.text`, `.rodata` etc.. grâce aux librairies `elftools` & `capstone`. 
 
+En ce qui concerne la génération de rapports, Enkidu utilise :
+
+- `markdown` pour convertir le texte formaté en Markdown en HTML. Cela permet une flexibilité dans la rédaction du contenu du rapport, qui peut ensuite être facilement converti en un format web visualisable.
+
+- `WeasyPrint` pour convertir des documents HTML en PDF. Elle joue un rôle crucial dans report.py en transformant le contenu HTML généré à partir de Markdown en un document PDF final, permettant une distribution et un archivage faciles des rapports.
 ---
 
 ## Fonctionnalités
@@ -68,7 +73,7 @@ Pour obtenir le code assembleur du binaire, Enkidu cherche dans le contenue des 
 
     - [x] Obtention du code assembleur.
 
-    - [ ] Obtention de pseudo `code C`.
+    - [ ] Obtention de pseudo code C.
 
 - [ ] Analyse automatique des binaires pour identifier les vulnérabilités :
 
@@ -78,15 +83,21 @@ Pour obtenir le code assembleur du binaire, Enkidu cherche dans le contenue des 
 
 - [ ] Tentatives d'exploitation automatiques pour contourner les défenses des binaires.
 
-    - [ ] `Fuzztesting` des entrées utilisateurs.
+    - [ ] Fuzztesting des entrées utilisateurs.
 
-    - [ ] Tentative d'`exploitation binaire`.
+    - [ ] Tentative d'exploitation binaire.
 
-    - [ ] Tentative d'exploitation de `format de chaine`.
+    - [ ] Tentative d'exploitation de format de chaine.
 
-- [ ] Génération de `rapport`.
+- [x] Génération de rapport.
 
-- [ ] Interface utilisateur `intuitive` pour faciliter l'utilisation et l'interprétation des résultats.
+    - [x] Rapport en `markdown` fait.
+
+    - [x] Rapport en `HTML/CSS` fait.
+
+    - [x] Rapport `PDF` fait.
+
+- [ ] Interface utilisateur intuitive pour faciliter l'utilisation et l'interprétation des résultats.
 
 - [ ] Prise en charge de différents types de binaires et architectures.
 
