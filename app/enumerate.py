@@ -29,7 +29,7 @@ PRINTED_STRING_LIST = [
 ]
 
 #
-# function to put the command 'file' information on an object
+# function to put the command 'file' informations on an object
 #
 def file_cmd(FILENAME):
 
