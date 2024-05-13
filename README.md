@@ -24,7 +24,7 @@ Enkidu est un outil de pentest automatique spécialisé dans l'analyse et l'expl
 
 ## Introduction
 
-Enkidu est un projet open-source développé dans le cadre d'un projet technique en master de cybersécurité. Inspiré par la figure mythique d'Enkidu, ce projet vise à fournir un outil robuste et automatisé pour les tests de pénétration sur des binaires, permettant aux chercheurs en sécurité de découvrir et d'exploiter des vulnérabilités.
+Enkidu est un projet open-source développé dans le cadre d'un projet technique en master de cybersécurité. Ce projet vise à fournir un outil robuste et automatisé pour les tests de pénétration sur des binaires, permettant d'énumérer automatiquement des binaires et de découvrir et exploiter des vulnérabilités.
 
 ### Information
 
@@ -40,7 +40,7 @@ Pour la partie enumération du binaire, Enkidu utilise la sortie des commandes :
 
 Ensuite, Enkidu traite la sortie de chacune de ces commandes afin de l'unifier dans un json qui servira de base pour l'analyse.
 
-Pour obtenir le code source du binaire, Enkidu utilise les libraries `elftools` & `capstone`.
+Pour obtenir le code assembleur du binaire, Enkidu cherche dans le contenue des sections `.text`, `.rodata` etc.. grâce aux librairies `elftools` & `capstone`. 
 
 ---
 
@@ -48,29 +48,45 @@ Pour obtenir le code source du binaire, Enkidu utilise les libraries `elftools` 
 
 - [ ] Enumération d'information binaire :
 
-    - [x] traitement de la commande `file`
+    - [x] Traitement de la commande `file`.
 
-    - [x] traitement de la commande `checksec`
+    - [x] Traitement de la commande `checksec`.
 
-    - [x] traitement de la commande `strings`:
+    - [x] Traitement de la commande `strings`:
 
-        - [x] Fonctions
+        - [x] Fonctions.
 
-        - [x] Messages d'erreur/succès
+        - [x] Messages d'erreur/succès.
 
-    - [x] traitement de la commande `ldd`
+    - [x] Traitement de la commande `ldd`.
 
-    - [x] Récupération des sections et du code assembleur du binaire
+    - [x] Récupération des sections du binaire.
 
-    - [ ] traitement de la commande `objdump`
+    - [ ] Traitement de la commande `objdump`.
 
-    - [ ] traitement de la commande `readelf`
+    - [ ] Traitement de la commande `readelf`.
 
-- [ ] Analyse automatique des binaires pour identifier les vulnérabilités.
+    - [x] Obtention du code assembleur.
+
+    - [ ] Obtention de pseudo `code C`.
+
+- [ ] Analyse automatique des binaires pour identifier les vulnérabilités :
+
+    - [ ] Déterminer les fonctions vulnérables.
+
+    - [ ] Analyse des sécurités du binaire.
 
 - [ ] Tentatives d'exploitation automatiques pour contourner les défenses des binaires.
 
-- [ ] Interface utilisateur intuitive pour faciliter l'utilisation et l'interprétation des résultats.
+    - [ ] `Fuzztesting` des entrées utilisateurs.
+
+    - [ ] Tentative d'`exploitation binaire`.
+
+    - [ ] Tentative d'exploitation de `format de chaine`.
+
+- [ ] Génération de `rapport`.
+
+- [ ] Interface utilisateur `intuitive` pour faciliter l'utilisation et l'interprétation des résultats.
 
 - [ ] Prise en charge de différents types de binaires et architectures.
 
@@ -92,7 +108,7 @@ git clone https://github.com/Igaemas/Enkidu.git
 
 ```bash
 
-cd enkidu/app
+cd enkidu
 
 ```
 
@@ -108,6 +124,7 @@ python -m pip install -m requirement.txt
 ## Utilisation
 
 ```bash
+cd app
 python main.py <pathToBinary>
 ``` 
 
