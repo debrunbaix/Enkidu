@@ -3,9 +3,6 @@ from elftools.elf.relocation import RelocationSection
 from capstone import *
 from output_functions import output
 
-import sys
-import json
-
 #
 # Function to put binary's sections in an object
 #
@@ -102,7 +99,7 @@ def get_src_code(info, binary):
         # get_relocations(elffile)
         if '.text' in sections.values():
             assembly_code = get_assembly(elffile, info['bit'])
-            save_assembly_to_file(assembly_code, f'{info["name"]}_assembly_code.txt')
+            # save_assembly_to_file(assembly_code, f'{info["name"]}_assembly_code.txt')
         
         if '.rodata' in sections.values():
             rodata = get_rodata_sections(elffile)
