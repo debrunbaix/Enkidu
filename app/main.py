@@ -3,6 +3,7 @@
 #
 import datetime
 import argparse
+import time
 import os
 
 #
@@ -41,6 +42,7 @@ REPORT_FOLDER_OUPUT = f"{BINARY_NAME}_report_{TODAY_DATE}"
 
 def main():
     print(TITLE)
+    time.sleep(1)
 
     binary_info = {"name": BINARY_NAME}
 
@@ -61,14 +63,15 @@ def main():
     assembly_code, rodata_sections = analyse(binary_info, binary, VERBOSE)
 
     # EXPLOIT ANALYSIS
-    fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
+    fuzz_output = fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
 
     # REPORT GENERATOR ANALYSIS
     generate_report(
         binary_info, 
         TARGET_FILE_PATH, 
         REPORT_FOLDER_OUPUT, 
-        assembly_code
+        assembly_code,
+        fuzz_output
     )
     return 1
 

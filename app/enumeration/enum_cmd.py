@@ -79,8 +79,6 @@ def strings_cmd(FILENAME, VERBOSE):
         'vulnerable_functions': "error"
     }
 
-    output('info', 1, strings_cmd_output) if VERBOSE else None
-
     printed_string = []
     vulnerable_functions = []
 
@@ -89,6 +87,7 @@ def strings_cmd(FILENAME, VERBOSE):
             vulnerable_functions.append(function)
 
     for string in strings_cmd_output.splitlines():
+        output('info', 1, string) if VERBOSE else None
         for word in PRINTED_STRING_LIST:
             if word.lower() in string.lower() and string not in printed_string:
                 printed_string.append(string)

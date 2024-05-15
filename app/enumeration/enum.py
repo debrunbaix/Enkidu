@@ -1,5 +1,3 @@
-import json
-
 from .enum_cmd import file_cmd, checksec_cmd, strings_cmd, ldd_cmd
 from ..output_functions import output
 

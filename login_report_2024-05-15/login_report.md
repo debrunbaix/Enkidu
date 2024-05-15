@@ -314,6 +314,7 @@ ret
 
 ## Exploit
 
+### Fuzzing
 ### Buffer Overflow
 
 ### Format String

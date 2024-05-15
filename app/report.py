@@ -7,7 +7,7 @@ from app.output_functions import output
 #
 # Function to put content on a list
 #
-def create_report_content(binary_info, file_path, assembly_code):
+def create_report_content(binary_info, file_path, assembly_code, fuzz_output):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     report = []
     report.append(f"# Report for {binary_info['name']} at {today}\n")
@@ -122,6 +122,8 @@ def create_report_content(binary_info, file_path, assembly_code):
     report.append("### ChatGPT Analysis\n")
     
     report.append("## Exploit\n")
+    report.append("### Fuzzing")
+
     report.append("### Buffer Overflow\n")
     
     report.append("### Format String\n")
@@ -143,7 +145,7 @@ def convert_html_to_pdf(html_path, pdf_path, css_path=None):
     css = CSS(css_path) if css_path else None
     html.write_pdf(pdf_path, stylesheets=[css] if css else None)
 
-def generate_report(binary_info, file_path, report_folder, assembly_code): 
+def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_output): 
 
     output('+', 0, 'Generating report.')
 
@@ -154,7 +156,7 @@ def generate_report(binary_info, file_path, report_folder, assembly_code):
     css_path = 'app/styles/styles.css'  # Assurez-vous que le chemin vers le fichier CSS est correct
 
     # Création du contenu du rapport, écriture en Markdown, conversion en HTML et en PDF
-    report_content = create_report_content(binary_info, file_path, assembly_code)
+    report_content = create_report_content(binary_info, file_path, assembly_code, fuzz_output)
     with open(md_path, 'w', encoding='utf-8') as md_file:
         md_file.write(report_content)
     
