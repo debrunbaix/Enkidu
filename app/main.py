@@ -1,68 +1,75 @@
-import sys
-import json
-import os
+#
+# External library
+#
 import datetime
-from output_functions import output
-from enumerate import file_cmd, checksec_cmd, strings_cmd, ldd_cmd
-from get_src_code import get_src_code
-from report import generate_report
+import argparse
+import os
 
-def run_command(cmd_func, file_path, desc, binary_info):
-    try:
-        binary_info.update(cmd_func(file_path))
-        output('+', 1, f'Information de \'{desc}\' ajoutées.')
-    except Exception as e:
-        output('-', 1, f'Erreur lors de la commande \'{desc}\': {e}')
+#
+# Enkidu modules
+#
+from app.enumeration.enum import launch_enum_cmd
+from app.analyse.analyse import analyse
+from app.output_functions import output, TITLE
+from app.report import generate_report
+from app.fuzztesting import fuzztest
+
+#
+# Args management
+#
+parser = argparse.ArgumentParser(description='Target File')
+parser.add_argument(
+    '-t', '--target',
+    type=str, required=True, 
+    help='Mettre un binaire en input'
+)
+parser.add_argument(
+    '-v', '--verbose', 
+    action='store_true', required=False, 
+    help='Affiche plus d\'informations sur l\'execution en cours'
+)
+args = parser.parse_args()
+
+#
+# Const declaration
+#
+VERBOSE = args.verbose
+TARGET_FILE_PATH = args.target
+BINARY_NAME = (TARGET_FILE_PATH.split('/'))[-1]
+TODAY_DATE = datetime.datetime.now().strftime("%Y-%m-%d")
+REPORT_FOLDER_OUPUT = f"{BINARY_NAME}_report_{TODAY_DATE}"
 
 def main():
-    #
-    # get target file path and name
-    #
-    TARGET_FILE_PATH = sys.argv[1]
-    BINARY_NAME = (TARGET_FILE_PATH.split('/'))[-1]
+    print(TITLE)
 
     binary_info = {"name": BINARY_NAME}
-
-    # Obtention de la date actuelle sous la forme AAAA-MM-JJ
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-    
-    # Création du nom du dossier
-    report_folder = f"{binary_info['name']}_report_{today}"
-    
-    # Création du dossier si nécessaire
-    if not os.path.exists(report_folder):
-        os.makedirs(report_folder)
 
     try:
         binary = open(TARGET_FILE_PATH, 'rb')
         output('+', 0, f'Success opening {BINARY_NAME}.')
     except:
         output('-', 0, 'File doesn\'t exist.')
-        return 0
+        exit()
     
-    #
-    # extract information from the binary
-    #
-    output('+', 0, 'Extracting informations')
-    run_command(file_cmd, TARGET_FILE_PATH, 'file', binary_info)
-    run_command(checksec_cmd, TARGET_FILE_PATH, 'checksec', binary_info)
-    run_command(strings_cmd, TARGET_FILE_PATH, 'strings', binary_info)
-    run_command(ldd_cmd, TARGET_FILE_PATH, 'ldd', binary_info)
+    if not os.path.exists(REPORT_FOLDER_OUPUT):
+        os.makedirs(REPORT_FOLDER_OUPUT)
 
-    # print(json.dumps(binary_info, indent=4))
+    # ENUMERATION PHASE
+    launch_enum_cmd(TARGET_FILE_PATH, binary_info, VERBOSE)
 
-    #
-    # Get source code of the binary
-    #
-    assembly_code, rodata_sections = get_src_code(binary_info, binary)
+    # ANALYSIS PHASE
+    assembly_code, rodata_sections = analyse(binary_info, binary, VERBOSE)
 
+    # EXPLOIT ANALYSIS
+    fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
+
+    # REPORT GENERATOR ANALYSIS
     generate_report(
         binary_info, 
         TARGET_FILE_PATH, 
-        report_folder, 
+        REPORT_FOLDER_OUPUT, 
         assembly_code
     )
-
     return 1
 
 if __name__ == "__main__":

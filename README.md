@@ -16,9 +16,11 @@ Enkidu est un outil de pentest automatique spécialisé dans l'analyse et l'expl
 
 4. [Utilisation](#utilisation)
 
-5. [Contributions](#contributions)
+5. [Documentation](#documentation)
 
-6. [Licence](#licence)
+6. [Contributions](#contributions)
+
+7. [Licence](#licence)
 
 ---
 
@@ -85,6 +87,10 @@ En ce qui concerne la génération de rapports, Enkidu utilise :
 
     - [ ] Fuzztesting des entrées utilisateurs.
 
+        - [x] level 1 : Test avec les strings récupéré avant.
+
+        - [ ] level 2 : fuzztesting avancé.
+
     - [ ] Tentative d'exploitation binaire.
 
     - [ ] Tentative d'exploitation de format de chaine.
@@ -132,11 +138,46 @@ python -m pip install -m requirement.txt
 
 ---
 
+## Documentation
+
+### Arborescence
+
+```
+Enkidu/
+├── app/                       # Répertoire principal de l'application
+│   ├── analyse/               # Contient des scripts pour l'analyse de binaire
+│   │   ├── analyse.py         # Script d'initialisation des analyses
+│   │   ├── assembly.py        # Script pour analyser le code assembleur
+│   │   ├── sections.py        # Script pour analyser les sections du binaire
+│   │   └── __init__.py        
+│   ├── enumeration/           # Scripts pour l'énumération des binaires
+│   │   ├── enum_cmd.py        # Commandes pour l'énumération
+│   │   ├── enum.py            # Script pour lancer l'énumération
+│   │   └── __init__.py        
+│   ├── __init__.py            
+│   ├── main.py                # Point d'entrée principal du projet
+│   ├── output_functions.py    # Fonctions pour gérer les sorties (log, affichage)
+│   ├── fuzztesting.py         # Script pour le fuzz testing des binaires
+│   ├── report.py              # Script pour générer les rapports Markdown, HTML/CSS, PDF
+│   ├── styles/                # Dossier pour les fichiers CSS et autres ressources de style
+│   │   ├── DejaVuSans.ttf     # Police de caractères pour les rapports
+│   │   └── styles.css         # Feuille de style CSS pour les rapports
+│   └── testFile/              # Dossier contenant des fichiers de test ou exemples de binaires
+├── attachments/               # Dossier pour les fichiers joints ou annexes (si nécessaire)
+├── LICENSE                    # Fichier de licence pour le projet
+├── login_report_2024-05-15/   # Exemple de rapport généré
+├── README.md                  # Fichier Markdown fournissant des informations sur le projet
+├── requirements.txt           # Liste des dépendances Python nécessaires
+└── venv/                      # Environnement virtuel Python
+```
+
+---
+
 ## Utilisation
 
 ```bash
-cd app
-python main.py <pathToBinary>
+source venv/bin/activate
+python3 -m app.main -t <path_to_binary>
 ``` 
 
 ---

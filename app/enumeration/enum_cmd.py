@@ -1,6 +1,7 @@
 import subprocess
 import json
 
+from app.output_functions import output
 #
 # List of vulnerable functions
 #
@@ -31,10 +32,12 @@ PRINTED_STRING_LIST = [
 #
 # function to put the command 'file' informations on an object
 #
-def file_cmd(FILENAME):
+def file_cmd(FILENAME, VERBOSE):
 
     FILE_CMD = ['file', '-b', FILENAME]
     file_cmd_output = subprocess.check_output(FILE_CMD, universal_newlines=True)
+
+    output('info', 1, file_cmd_output) if VERBOSE else None
 
     output_list = file_cmd_output.split(', ')
     file_cmd_info = {
@@ -48,10 +51,12 @@ def file_cmd(FILENAME):
 #
 # function to put the checksec command output in an object
 #
-def checksec_cmd(FILENAME):
+def checksec_cmd(FILENAME, VERBOSE):
 
     CHECKSEC_CMD = ['checksec', '--output=json', '--file=' + FILENAME]
     checksec_cmd_output = subprocess.check_output(CHECKSEC_CMD, universal_newlines=True)
+
+    output('info', 1, checksec_cmd_output) if VERBOSE else None
 
     output_list = json.loads(checksec_cmd_output)[FILENAME]
     return output_list
@@ -61,7 +66,7 @@ def checksec_cmd(FILENAME):
 #   - Vulnerable function
 #   - printed strings
 #
-def strings_cmd(FILENAME):
+def strings_cmd(FILENAME, VERBOSE):
 
     STRINGS_CMD = ['strings', FILENAME]
 
@@ -73,6 +78,8 @@ def strings_cmd(FILENAME):
         'printed strings': "error",
         'vulnerable_functions': "error"
     }
+
+    output('info', 1, strings_cmd_output) if VERBOSE else None
 
     printed_string = []
     vulnerable_functions = []
@@ -94,10 +101,12 @@ def strings_cmd(FILENAME):
 #
 # Function to get library list of the binary
 #
-def ldd_cmd(FILENAME):
+def ldd_cmd(FILENAME, VERBOSE):
 
     LDD_CMD = ['ldd', FILENAME]
     ldd_cmd_output = subprocess.check_output(LDD_CMD, universal_newlines=True)
+
+    output('info', 1, ldd_cmd_output) if VERBOSE else None
 
     library = []
 

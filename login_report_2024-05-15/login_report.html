@@ -1,21 +1,18 @@
-# Report for login at 2024-05-13
-
+<h1>Report for login at 2024-05-15</h1>
 <div></div>
-## Summary
-
-- [General Information](#general-information)
-- [Security of the Binary](#security-of-the-binary)
-- [Strings](#strings)
-- [Assembly Code](#assembly-code)
-- [Code Analysis](#code-analysis)
-- [Exploits](#exploits)
-- [Credits](#credits)
-
+<h2>Summary</h2>
+<ul>
+<li><a href="#general-information">General Information</a></li>
+<li><a href="#security-of-the-binary">Security of the Binary</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#assembly-code">Assembly Code</a></li>
+<li><a href="#code-analysis">Code Analysis</a></li>
+<li><a href="#exploits">Exploits</a></li>
+<li><a href="#credits">Credits</a></li>
+</ul>
 <div></div>
-## Enumeration
-
-### Binary Information
-
+<h2>Enumeration</h2>
+<h3>Binary Information</h3>
 <table>
 <tr>
 <th>File Name</th>
@@ -25,14 +22,13 @@
 </tr>
 <tr>
 <td>login</td>
-<td>testFile/login</td>
+<td>app/testFile/login</td>
 <td>ELF</td>
 <td>32-bit</td>
 </tr>
 </table>
 
-### Security of the Binary
-
+<h3>Security of the Binary</h3>
 <table>
 <tr><th colspan='4'>Basic Security Features</th></tr>
 <tr>
@@ -77,30 +73,30 @@
 </tr>
 </table>
 
-### Strings
-
-- Enter admin password: 
-- pass
-- Correct Password!
-- Incorrect Password!
-- Successfully logged in as Admin (authorised=%d) :)
-- Failed to log in as Admin (authorised=%d) :(
-- login.c
-- .note.gnu.build-id
-
-### Vulnerable Functions
-
-- gets
-- printf
-
-### Libraries
-
-- linux-gate.so.1
-- libc.so.6
-- /lib/ld-linux.so.2
-
-### Assembly Code
-```assembly
+<h3>Strings</h3>
+<ul>
+<li>Enter admin password: </li>
+<li>pass</li>
+<li>Correct Password!</li>
+<li>Incorrect Password!</li>
+<li>Successfully logged in as Admin (authorised=%d) :)</li>
+<li>Failed to log in as Admin (authorised=%d) :(</li>
+<li>login.c</li>
+<li>.note.gnu.build-id</li>
+</ul>
+<h3>Vulnerable Functions</h3>
+<ul>
+<li>gets</li>
+<li>printf</li>
+</ul>
+<h3>Libraries</h3>
+<ul>
+<li>linux-gate.so.1</li>
+<li>libc.so.6</li>
+<li>/lib/ld-linux.so.2</li>
+</ul>
+<h3>Assembly Code</h3>
+<p><code>assembly
 xor ebp, ebp
 pop esi
 mov ecx, esp
@@ -302,22 +298,13 @@ ret
 lea esi, [esi]
 ret
 mov ebp, dword ptr [esp]
-ret
-```
-
+ret</code></p>
 <div></div>
-## Code Analysis
-
-### Pseudo C Code
-
-### ChatGPT Analysis
-
-## Exploit
-
-### Buffer Overflow
-
-### Format String
-
-## Credits
-
-This report was generated using automated tools and the expert analysis of security researchers.
+<h2>Code Analysis</h2>
+<h3>Pseudo C Code</h3>
+<h3>ChatGPT Analysis</h3>
+<h2>Exploit</h2>
+<h3>Buffer Overflow</h3>
+<h3>Format String</h3>
+<h2>Credits</h2>
+<p>This report was generated using automated tools and the expert analysis of security researchers.</p>

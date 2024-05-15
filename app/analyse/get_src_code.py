@@ -1,7 +1,7 @@
 from elftools.elf.elffile import ELFFile
 from elftools.elf.relocation import RelocationSection
 from capstone import *
-from output_functions import output
+from app.output_functions import output
 
 #
 # Function to put binary's sections in an object
@@ -17,18 +17,19 @@ def get_elf_binary_sections(elffile, sections):
 # Function to get the assembly code from the .text section
 #
 def get_assembly(elffile, mode):
-    print('    [+] Getting assembly code.')
+    output('+', 1, 'Getting assembly code.')
     code = elffile.get_section_by_name('.text')
     ops = code.data()
 
     addr = code['sh_addr']
-    print(f'        [+] First address : {addr}')
+    output('+', 2, f'First address : {addr}')
 
     if mode == 32:
         md = Cs(CS_ARCH_X86, CS_MODE_32)
     elif mode == 64:
         md = Cs(CS_ARCH_X86, CS_MODE_64) 
-    print(f'        [+] arch : x86\n        [+] {mode} bit.')
+    output('+', 2, 'arch : x86.')
+    output('+', 2, f'{mode} bit.')
 
     assembly_code = []
     for i in md.disasm(ops, addr):        
@@ -46,7 +47,6 @@ def get_rodata_sections(elffile):
     
     try:
         decoded_strings = ops.decode('ascii', 'replace')
-        print("Contents of .rodata section:")
         offset = 0
         rodata_list = []
         for line in decoded_strings.split('\x00'):
@@ -88,7 +88,6 @@ def get_src_code(info, binary):
     elffile = ELFFile(binary)
     sections = {}
 
-    # Is the binary an ELF
     if info['format'] == 'ELF':
         sections = get_elf_binary_sections(elffile, sections)
         output('+', 1, 'Get binary\'s sections done.')

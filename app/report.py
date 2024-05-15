@@ -2,6 +2,7 @@ import os
 import datetime
 import markdown
 from weasyprint import HTML, CSS
+from app.output_functions import output
 
 #
 # Function to put content on a list
@@ -143,21 +144,27 @@ def convert_html_to_pdf(html_path, pdf_path, css_path=None):
     html.write_pdf(pdf_path, stylesheets=[css] if css else None)
 
 def generate_report(binary_info, file_path, report_folder, assembly_code): 
+
+    output('+', 0, 'Generating report.')
+
     # Définition des chemins pour les fichiers du rapport
     md_path = os.path.join(report_folder, f"{binary_info['name']}_report.md")
     html_path = os.path.join(report_folder, f"{binary_info['name']}_report.html")
     pdf_path = os.path.join(report_folder, f"{binary_info['name']}_report.pdf")
-    css_path = 'styles/styles.css'  # Assurez-vous que le chemin vers le fichier CSS est correct
+    css_path = 'app/styles/styles.css'  # Assurez-vous que le chemin vers le fichier CSS est correct
 
     # Création du contenu du rapport, écriture en Markdown, conversion en HTML et en PDF
     report_content = create_report_content(binary_info, file_path, assembly_code)
     with open(md_path, 'w', encoding='utf-8') as md_file:
         md_file.write(report_content)
+    
+    output('+', 1, f'Markdown report created : {md_path}')
 
     html_content = markdown_to_html(report_content)
     write_html_file(html_content, html_path)
 
+    output('+', 1, f'HTML report created : {html_path}')
+
     convert_html_to_pdf(html_path, pdf_path, css_path)
 
-    print(f"PDF report generated successfully in {report_folder}.")
-
+    output('+', 1, f'PDF report created : {pdf_path}')
