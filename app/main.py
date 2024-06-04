@@ -29,12 +29,18 @@ parser.add_argument(
     action='store_true', required=False, 
     help='Affiche plus d\'informations sur l\'execution en cours'
 )
+parser.add_argument(
+    '-f', '--fuzzlevel',
+    type=int, required=True,
+    help='Choisir le niveau de fuzztesting à faire :\n - 0 : Seulement tester les strings trouvé dans le binaire\n - 1 : Utilisation de AFL pour le fuzztesting.'
+)
 args = parser.parse_args()
 
 #
 # Const declaration
 #
 VERBOSE = args.verbose
+FUZZLEVEL = args.fuzzlevel
 TARGET_FILE_PATH = args.target
 BINARY_NAME = (TARGET_FILE_PATH.split('/'))[-1]
 TODAY_DATE = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -63,7 +69,7 @@ def main():
     assembly_code, rodata_sections = analyse(binary_info, binary, VERBOSE)
 
     # EXPLOIT ANALYSIS
-    fuzz_output = fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
+    fuzz_output_0, fuzz_output_1 = fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE, FUZZLEVEL)
 
     # REPORT GENERATOR ANALYSIS
     generate_report(
@@ -71,7 +77,7 @@ def main():
         TARGET_FILE_PATH, 
         REPORT_FOLDER_OUPUT, 
         assembly_code,
-        fuzz_output
+        fuzz_output_0
     )
     return 1
 

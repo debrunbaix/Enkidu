@@ -1,12 +1,15 @@
 import subprocess
 from app.output_functions import output
 
-def fuzztest(binary_info, path, VERBOSE):
-
+def afl_cmd(path):
     output('+', 0, 'Fuzzing level 1.')
+
+def fuzztest(binary_info, path, VERBOSE, FUZZLEVEL):
+
+    output('+', 0, 'Fuzzing level 0.')
     wordlist = binary_info['printed strings']
 
-    level_1 = {
+    level_0 = {
         'success':[], 
         'error':[]
     }
@@ -20,9 +23,11 @@ def fuzztest(binary_info, path, VERBOSE):
 
         if success:
             output('+', 1, f'Success with : {string}')
-            level_1['success'].append(success)
+            level_0['success'].append(string)
         elif error and VERBOSE:
             output('-', 1, f'Error with : {string}')
-            level_1['error'].append(error)
+            level_0['error'].append(string)
 
-    return level_1
+    level_1 = afl_cmd(path) if FUZZLEVEL else None
+
+    return level_0, level_1

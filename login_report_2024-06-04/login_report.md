@@ -1,4 +1,4 @@
-# Report for login at 2024-05-15
+# Report for login at 2024-06-04
 
 <div></div>
 ## Summary
@@ -315,6 +315,13 @@ ret
 ## Exploit
 
 ### Fuzzing
+
+Exploit success with these input :
+
+- pass
+
+- login.c
+
 ### Buffer Overflow
 
 ### Format String

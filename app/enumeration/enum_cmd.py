@@ -11,7 +11,13 @@ VULN_FUNCTIONS = [
     'strcat',
     'sprintf',
     'scanf',
-    'printf'
+    'printf',
+    'vsprintf',
+    'makepath',
+    '_splitpath',
+    'sscanf',
+    'snscanf',
+    'strlen'
 ]
 
 #

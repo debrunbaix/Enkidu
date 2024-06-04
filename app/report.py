@@ -122,7 +122,10 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output):
     report.append("### ChatGPT Analysis\n")
     
     report.append("## Exploit\n")
-    report.append("### Fuzzing")
+    report.append("### Fuzzing\n")
+    report.append("Exploit success with these input :\n")
+    for success_string in fuzz_output['success']:
+        report.append(f"- {success_string}\n")
 
     report.append("### Buffer Overflow\n")
     
