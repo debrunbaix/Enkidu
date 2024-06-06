@@ -9,9 +9,10 @@ import os
 #
 # Enkidu modules
 #
+from app.decompile_zone.get_disassembly_code import get_disassembly_code
 from app.enumeration.enum import launch_enum_cmd
-from app.analyse.analyse import analyse
 from app.output_functions import output, TITLE
+from app.analyse.analyse import analyse
 from app.report import generate_report
 from app.fuzztesting import fuzztest
 
@@ -29,22 +30,17 @@ parser.add_argument(
     action='store_true', required=False, 
     help='Affiche plus d\'informations sur l\'execution en cours'
 )
-parser.add_argument(
-    '-f', '--fuzzlevel',
-    type=int, required=True,
-    help='Choisir le niveau de fuzztesting à faire :\n - 0 : Seulement tester les strings trouvé dans le binaire\n - 1 : Utilisation de AFL pour le fuzztesting.'
-)
 args = parser.parse_args()
 
 #
 # Const declaration
 #
 VERBOSE = args.verbose
-FUZZLEVEL = args.fuzzlevel
 TARGET_FILE_PATH = args.target
 BINARY_NAME = (TARGET_FILE_PATH.split('/'))[-1]
 TODAY_DATE = datetime.datetime.now().strftime("%Y-%m-%d")
 REPORT_FOLDER_OUPUT = f"{BINARY_NAME}_report_{TODAY_DATE}"
+DISASSEMBLY_CODE_PATH = f"{REPORT_FOLDER_OUPUT}/disassembly_code"
 
 def main():
     print(TITLE)
@@ -61,15 +57,17 @@ def main():
     
     if not os.path.exists(REPORT_FOLDER_OUPUT):
         os.makedirs(REPORT_FOLDER_OUPUT)
+        os.makedirs(DISASSEMBLY_CODE_PATH)
 
     # ENUMERATION PHASE
     launch_enum_cmd(TARGET_FILE_PATH, binary_info, VERBOSE)
 
     # ANALYSIS PHASE
     assembly_code, rodata_sections = analyse(binary_info, binary, VERBOSE)
+    disassembly_function = get_disassembly_code(BINARY_NAME, TARGET_FILE_PATH, DISASSEMBLY_CODE_PATH, VERBOSE)
 
     # EXPLOIT ANALYSIS
-    fuzz_output_0, fuzz_output_1 = fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE, FUZZLEVEL)
+    fuzz_output_0= fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
 
     # REPORT GENERATOR ANALYSIS
     generate_report(
@@ -77,7 +75,9 @@ def main():
         TARGET_FILE_PATH, 
         REPORT_FOLDER_OUPUT, 
         assembly_code,
-        fuzz_output_0
+        fuzz_output_0,
+        disassembly_function,
+        DISASSEMBLY_CODE_PATH
     )
     return 1
 

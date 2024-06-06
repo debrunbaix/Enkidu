@@ -7,7 +7,7 @@ from app.output_functions import output
 #
 # Function to put content on a list
 #
-def create_report_content(binary_info, file_path, assembly_code, fuzz_output):
+def create_report_content(binary_info, file_path, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     report = []
     report.append(f"# Report for {binary_info['name']} at {today}\n")
@@ -118,7 +118,14 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output):
 
     report.append("## Code Analysis\n")
     report.append("### Pseudo C Code\n")
-    
+    for function in disassembly_function:
+        file_path = os.path.join(DISASSEMBLY_CODE_PATH, function)
+        report.append(f"#### {function}")
+        report.append("```c")
+        with open(file_path, 'r') as f:
+            report.extend(f.readlines())
+        report.append("```\n")
+
     report.append("### ChatGPT Analysis\n")
     
     report.append("## Exploit\n")
@@ -137,7 +144,7 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output):
     return "\n".join(report)
 
 def markdown_to_html(md_text):
-    return markdown.markdown(md_text)
+    return markdown.markdown(md_text, extensions=['fenced_code'])
 
 def write_html_file(html_content, html_path):
     with open(html_path, 'w', encoding='utf-8') as html_file:
@@ -148,7 +155,7 @@ def convert_html_to_pdf(html_path, pdf_path, css_path=None):
     css = CSS(css_path) if css_path else None
     html.write_pdf(pdf_path, stylesheets=[css] if css else None)
 
-def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_output): 
+def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH): 
 
     output('+', 0, 'Generating report.')
 
@@ -159,7 +166,7 @@ def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_o
     css_path = 'app/styles/styles.css'  # Assurez-vous que le chemin vers le fichier CSS est correct
 
     # Création du contenu du rapport, écriture en Markdown, conversion en HTML et en PDF
-    report_content = create_report_content(binary_info, file_path, assembly_code, fuzz_output)
+    report_content = create_report_content(binary_info, file_path, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH)
     with open(md_path, 'w', encoding='utf-8') as md_file:
         md_file.write(report_content)
     

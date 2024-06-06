@@ -1,4 +1,4 @@
-# Report for login at 2024-06-04
+# Report for login at 2024-06-06
 
 <div></div>
 ## Summary
@@ -309,6 +309,142 @@ ret
 ## Code Analysis
 
 ### Pseudo C Code
+
+#### main.c
+```c
+
+
+/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+
+
+
+undefined4 main(void)
+
+
+
+{
+
+  int iVar1;
+
+  char local_1a [6];
+
+  int local_14;
+
+  undefined *local_10;
+
+  
+
+  local_10 = &stack0x00000004;
+
+  local_14 = 0;
+
+  puts("Enter admin password: ");
+
+  gets(local_1a);
+
+  iVar1 = strcmp(local_1a,"pass");
+
+  if (iVar1 == 0) {
+
+    puts("Correct Password!");
+
+    local_14 = 1;
+
+  }
+
+  else {
+
+    puts("Incorrect Password!");
+
+  }
+
+  if (local_14 == 0) {
+
+    printf("Failed to log in as Admin (authorised=%d) :(\n",0);
+
+  }
+
+  else {
+
+    printf("Successfully logged in as Admin (authorised=%d) :)\n",local_14);
+
+  }
+
+  return 0;
+
+}
+
+
+
+```
+
+#### _start.c
+```c
+
+
+/* WARNING: Function: __i686.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+
+
+
+void processEntry _start(undefined4 param_1,undefined4 param_2)
+
+
+
+{
+
+  undefined auStack_4 [4];
+
+  
+
+  __libc_start_main(main,param_2,&stack0x00000004,__libc_csu_init,__libc_csu_fini,param_1,auStack_4)
+
+  ;
+
+  do {
+
+                    /* WARNING: Do nothing block with infinite loop */
+
+  } while( true );
+
+}
+
+
+
+```
+
+#### _init.c
+```c
+
+
+/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+
+
+
+int _init(EVP_PKEY_CTX *ctx)
+
+
+
+{
+
+  undefined *puVar1;
+
+  
+
+  puVar1 = PTR___gmon_start___0804bffc;
+
+  if (PTR___gmon_start___0804bffc != (undefined *)0x0) {
+
+    puVar1 = (undefined *)(*(code *)PTR___gmon_start___0804bffc)();
+
+  }
+
+  return (int)puVar1;
+
+}
+
+
+
+```
 
 ### ChatGPT Analysis
 
