@@ -44,6 +44,8 @@ Ensuite, Enkidu traite la sortie de chacune de ces commandes afin de l'unifier d
 
 Pour obtenir le code assembleur du binaire, Enkidu cherche dans le contenue des sections `.text`, `.rodata` etc.. grâce aux librairies `elftools` & `capstone`. 
 
+Pour l'obtention du pseudo code C, Enkidu utilise `Ghidra` et son scripts `AnalyseHeadless` afin d'executer Ghidra en ligne de commande avec mon script de decompilateur dans `/decompile_zone/script/decompiler.py`.
+
 En ce qui concerne la génération de rapports, Enkidu utilise :
 
 - `markdown` pour convertir le texte formaté en Markdown en HTML. Cela permet une flexibilité dans la rédaction du contenu du rapport, qui peut ensuite être facilement converti en un format web visualisable.
@@ -53,7 +55,7 @@ En ce qui concerne la génération de rapports, Enkidu utilise :
 
 ## Fonctionnalités
 
-- [ ] Enumération d'information binaire :
+- [x] Enumération d'information binaire :
 
     - [x] Traitement de la commande `file`.
 
@@ -69,19 +71,17 @@ En ce qui concerne la génération de rapports, Enkidu utilise :
 
     - [x] Récupération des sections du binaire.
 
-    - [ ] Traitement de la commande `objdump`.
-
-    - [ ] Traitement de la commande `readelf`.
-
     - [x] Obtention du code assembleur.
 
-    - [ ] Obtention de pseudo code C.
+- [x] Obtention de pseudo code C.
 
-- [ ] Analyse automatique des binaires pour identifier les vulnérabilités :
+- [x] Analyse automatique des binaires pour identifier les vulnérabilités :
 
-    - [ ] Déterminer les fonctions vulnérables.
+    - [x] Déterminer les fonctions vulnérables.
 
-    - [ ] Analyse des sécurités du binaire.
+    - [x] Analyse des sécurités du binaire.
+
+- [ ] Analyser les outputs grâce à ChatGPT.
 
 - [ ] Tentatives d'exploitation automatiques pour contourner les défenses des binaires.
 

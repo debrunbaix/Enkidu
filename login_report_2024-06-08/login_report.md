@@ -1,18 +1,21 @@
-<h1>Report for login at 2024-06-06</h1>
+# Report for login at 2024-06-08
+
 <div></div>
-<h2>Summary</h2>
-<ul>
-<li><a href="#general-information">General Information</a></li>
-<li><a href="#security-of-the-binary">Security of the Binary</a></li>
-<li><a href="#strings">Strings</a></li>
-<li><a href="#assembly-code">Assembly Code</a></li>
-<li><a href="#code-analysis">Code Analysis</a></li>
-<li><a href="#exploits">Exploits</a></li>
-<li><a href="#credits">Credits</a></li>
-</ul>
+## Summary
+
+- [General Information](#general-information)
+- [Security of the Binary](#security-of-the-binary)
+- [Strings](#strings)
+- [Assembly Code](#assembly-code)
+- [Code Analysis](#code-analysis)
+- [Exploits](#exploits)
+- [Credits](#credits)
+
 <div></div>
-<h2>Enumeration</h2>
-<h3>Binary Information</h3>
+## Enumeration
+
+### Binary Information
+
 <table>
 <tr>
 <th>File Name</th>
@@ -28,7 +31,8 @@
 </tr>
 </table>
 
-<h3>Security of the Binary</h3>
+### Security of the Binary
+
 <table>
 <tr><th colspan='4'>Basic Security Features</th></tr>
 <tr>
@@ -73,30 +77,31 @@
 </tr>
 </table>
 
-<h3>Strings</h3>
-<ul>
-<li>Enter admin password: </li>
-<li>pass</li>
-<li>Correct Password!</li>
-<li>Incorrect Password!</li>
-<li>Successfully logged in as Admin (authorised=%d) :)</li>
-<li>Failed to log in as Admin (authorised=%d) :(</li>
-<li>login.c</li>
-<li>.note.gnu.build-id</li>
-</ul>
-<h3>Vulnerable Functions</h3>
-<ul>
-<li>gets</li>
-<li>printf</li>
-</ul>
-<h3>Libraries</h3>
-<ul>
-<li>linux-gate.so.1</li>
-<li>libc.so.6</li>
-<li>/lib/ld-linux.so.2</li>
-</ul>
-<h3>Assembly Code</h3>
-<pre><code class="language-assembly">xor ebp, ebp
+### Strings
+
+- Enter admin password: 
+- pass
+- Correct Password!
+- Incorrect Password!
+- Successfully logged in as Admin (authorised=%d) :)
+- Failed to log in as Admin (authorised=%d) :(
+- login.c
+- .note.gnu.build-id
+
+### Vulnerable Functions
+
+- gets
+- printf
+
+### Libraries
+
+- linux-gate.so.1
+- libc.so.6
+- /lib/ld-linux.so.2
+
+### Assembly Code
+```assembly
+xor ebp, ebp
 pop esi
 mov ecx, esp
 and esp, 0xfffffff0
@@ -298,12 +303,16 @@ lea esi, [esi]
 ret
 mov ebp, dword ptr [esp]
 ret
-</code></pre>
+```
+
 <div></div>
-<h2>Code Analysis</h2>
-<h3>Pseudo C Code</h3>
-<h4>main.c</h4>
-<pre><code class="language-c">
+## Code Analysis
+
+### Pseudo C Code
+
+#### main.c
+```c
+
 
 /* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
 
@@ -323,21 +332,21 @@ undefined4 main(void)
 
   undefined *local_10;
 
+  
 
-
-  local_10 = &amp;stack0x00000004;
+  local_10 = &stack0x00000004;
 
   local_14 = 0;
 
-  puts(&quot;Enter admin password: &quot;);
+  puts("Enter admin password: ");
 
   gets(local_1a);
 
-  iVar1 = strcmp(local_1a,&quot;pass&quot;);
+  iVar1 = strcmp(local_1a,"pass");
 
   if (iVar1 == 0) {
 
-    puts(&quot;Correct Password!&quot;);
+    puts("Correct Password!");
 
     local_14 = 1;
 
@@ -345,19 +354,19 @@ undefined4 main(void)
 
   else {
 
-    puts(&quot;Incorrect Password!&quot;);
+    puts("Incorrect Password!");
 
   }
 
   if (local_14 == 0) {
 
-    printf(&quot;Failed to log in as Admin (authorised=%d) :(\n&quot;,0);
+    printf("Failed to log in as Admin (authorised=%d) :(\n",0);
 
   }
 
   else {
 
-    printf(&quot;Successfully logged in as Admin (authorised=%d) :)\n&quot;,local_14);
+    printf("Successfully logged in as Admin (authorised=%d) :)\n",local_14);
 
   }
 
@@ -367,9 +376,11 @@ undefined4 main(void)
 
 
 
-</code></pre>
-<h4>_start.c</h4>
-<pre><code class="language-c">
+```
+
+#### _start.c
+```c
+
 
 /* WARNING: Function: __i686.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
 
@@ -383,9 +394,9 @@ void processEntry _start(undefined4 param_1,undefined4 param_2)
 
   undefined auStack_4 [4];
 
+  
 
-
-  __libc_start_main(main,param_2,&amp;stack0x00000004,__libc_csu_init,__libc_csu_fini,param_1,auStack_4)
+  __libc_start_main(main,param_2,&stack0x00000004,__libc_csu_init,__libc_csu_fini,param_1,auStack_4)
 
   ;
 
@@ -399,9 +410,11 @@ void processEntry _start(undefined4 param_1,undefined4 param_2)
 
 
 
-</code></pre>
-<h4>_init.c</h4>
-<pre><code class="language-c">
+```
+
+#### _init.c
+```c
+
 
 /* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
 
@@ -415,7 +428,7 @@ int _init(EVP_PKEY_CTX *ctx)
 
   undefined *puVar1;
 
-
+  
 
   puVar1 = PTR___gmon_start___0804bffc;
 
@@ -431,20 +444,24 @@ int _init(EVP_PKEY_CTX *ctx)
 
 
 
-</code></pre>
-<h3>ChatGPT Analysis</h3>
-<h2>Exploit</h2>
-<h3>Fuzzing</h3>
-<p>Exploit success with these input :</p>
-<ul>
-<li>
-<p>pass</p>
-</li>
-<li>
-<p>login.c</p>
-</li>
-</ul>
-<h3>Buffer Overflow</h3>
-<h3>Format String</h3>
-<h2>Credits</h2>
-<p>This report was generated using automated tools and the expert analysis of security researchers.</p>
+```
+
+### ChatGPT Analysis
+
+## Exploit
+
+### Fuzzing
+
+Exploit success with these input :
+
+- pass
+
+- login.c
+
+### Buffer Overflow
+
+### Format String
+
+## Credits
+
+This report was generated using automated tools and the expert analysis of security researchers.
