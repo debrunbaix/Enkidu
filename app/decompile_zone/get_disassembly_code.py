@@ -46,4 +46,11 @@ def get_disassembly_code(BINARY_NAME, TARGET_FILE_PATH, DISASSEMBLY_CODE_PATH, V
 
     functions = function_filter(DISASSEMBLY_CODE_PATH)
     
-    return functions
+    result = {}
+    for function in functions:
+        file_path = os.path.join(DISASSEMBLY_CODE_PATH, function)
+        with open(file_path, 'r') as file:
+            code_content = file.read()
+        result[function] = {"code": code_content, "description": ""}
+
+    return result

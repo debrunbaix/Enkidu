@@ -118,13 +118,14 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output, di
 
     report.append("## Code Analysis\n")
     report.append("### Pseudo C Code\n")
-    for function in disassembly_function:
-        file_path = os.path.join(DISASSEMBLY_CODE_PATH, function)
+    for function, details in disassembly_function.items():
         report.append(f"#### {function}")
         report.append("```c")
-        with open(file_path, 'r') as f:
-            report.extend(f.readlines())
+        report.append(details['code'])
         report.append("```\n")
+        if details['description'] != '':
+            report.append('#### Description')
+            report.append(details['description'])
 
     report.append("### ChatGPT Analysis\n")
     

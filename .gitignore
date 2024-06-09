@@ -2,6 +2,7 @@ app/__pycache__
 app/.gdb_history
 app/analyse/__pycache__
 app/enumeration/__pycache__
+app/ai_assist/.env
 
 venv/
 
