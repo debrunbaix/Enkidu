@@ -4,7 +4,7 @@ import subprocess
 import shutil
 import os
 
-def vrfy_path(path, BINARY_NAME):
+def vrfy_path(path, BINARY_NAME, VERBOSE):
 
     gpr = path + ".gpr"
     rep = path + ".rep"
@@ -12,7 +12,7 @@ def vrfy_path(path, BINARY_NAME):
     if os.path.exists(gpr):
         shutil.rmtree(rep)
         os.remove(gpr)
-        output("info", 1, f"Existing project '{BINARY_NAME}' has been removed.")
+        output("info", 1, f"Existing project '{BINARY_NAME}' has been removed.") if VERBOSE else None
 
 def get_disassembly_code(BINARY_NAME, TARGET_FILE_PATH, DISASSEMBLY_CODE_PATH, VERBOSE):
 
@@ -32,8 +32,9 @@ def get_disassembly_code(BINARY_NAME, TARGET_FILE_PATH, DISASSEMBLY_CODE_PATH, V
         "-scriptPath", script_path,
         "-postScript", post_script, DISASSEMBLY_CODE_PATH
     ]
+    output("info", 1, f"Ghidra command created : {ghidra_cmd}") if VERBOSE else None
 
-    vrfy_path(f"{project_path}/{project_name}", BINARY_NAME)
+    vrfy_path(f"{project_path}/{project_name}", BINARY_NAME, VERBOSE)
 
     try:
         result = subprocess.run(ghidra_cmd, capture_output=True, text=True)

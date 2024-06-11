@@ -77,7 +77,7 @@ def main():
     fuzz_output_0= fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
 
     if AI_ASSIST :
-        disassembly_function = pseudoC_to_readableC(disassembly_function, DISASSEMBLY_CODE_PATH) if AI_ASSIST else None
+        disassembly_function = pseudoC_to_readableC(disassembly_function, DISASSEMBLY_CODE_PATH, VERBOSE) if AI_ASSIST else None
 
     # REPORT GENERATOR ANALYSIS
     generate_report(

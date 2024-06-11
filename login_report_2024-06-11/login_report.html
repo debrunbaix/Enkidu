@@ -1,4 +1,4 @@
-<h1>Report for login at 2024-06-09</h1>
+<h1>Report for login at 2024-06-11</h1>
 <div></div>
 <h2>Summary</h2>
 <ul>
@@ -303,48 +303,57 @@ ret
 <h2>Code Analysis</h2>
 <h3>Pseudo C Code</h3>
 <h4>main.c</h4>
-<pre><code class="language-c">/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+<pre><code class="language-c">Revised Code:
+
+
+/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
 
 undefined4 main(void)
 
 {
   int comparisonResult;
-  char enteredPassword[6];
-  int isAuthenticated;
+  char adminPasswordInput[6];
+  int isAuthorized;
   undefined *stackPointer;
 
   stackPointer = &amp;stack0x00000004;
-  isAuthenticated = 0;
+  isAuthorized = 0;
   puts(&quot;Enter admin password: &quot;);
-  gets(enteredPassword);
-  comparisonResult = strcmp(enteredPassword, &quot;pass&quot;);
+  gets(adminPasswordInput);
+  comparisonResult = strcmp(adminPasswordInput,&quot;pass&quot;);
   if (comparisonResult == 0) {
     puts(&quot;Correct Password!&quot;);
-    isAuthenticated = 1;
+    isAuthorized = 1;
   }
   else {
     puts(&quot;Incorrect Password!&quot;);
   }
-  if (isAuthenticated == 0) {
-    printf(&quot;Failed to log in as Admin (authorised=%d) :(\n&quot;, 0);
+  if (isAuthorized == 0) {
+    printf(&quot;Failed to log in as Admin (authorised=%d) :(\n&quot;,0);
   }
   else {
-    printf(&quot;Successfully logged in as Admin (authorised=%d) :)\n&quot;, isAuthenticated);
+    printf(&quot;Successfully logged in as Admin (authorised=%d) :)\n&quot;,isAuthorized);
   }
   return 0;
 }
 </code></pre>
 <h4>Description</h4>
-<p>This code is a simple password authentication program written in C. It prompts the user to enter the admin password via the console. The entered password is then compared with the hardcoded string "pass" using the strcmp function. If the entered password matches the hardcoded string, the program outputs "Correct Password!" and sets the isAuthenticated variable to 1. If the entered password does not match, the program outputs "Incorrect Password!". Finally, the program checks the value of isAuthenticated: if it is 0, it prints a message indicating a failed login attempt, otherwise, it prints a message indicating a successful login as Admin. The main function then returns 0 to indicate the program has finished executing.</p>
+<p>Explanation:</p>
+<p>The provided code snippet is a simple C program that prompts the user to enter an administrator password and checks if the entered password is correct. If the correct password "pass" is entered, it prints "Correct Password!" and sets the authorization flag, <strong>isAuthorized</strong>, to 1. If the password is incorrect, it prints "Incorrect Password!". Depending on the value of <strong>isAuthorized</strong>, it then prints whether the login attempt as an admin was successful or not.</p>
+<p>Security issues:
+1. Use of <strong>gets</strong>: The function <strong>gets</strong> is unsafe because it does not check the size of the input, which can lead to buffer overflow vulnerabilities. An attacker could exploit this to execute arbitrary code.
+2. Hardcoded password: The password "pass" is hardcoded into the source code, which is not secure. A better approach would be to securely hash and store passwords.
+3. Lack of input validation: There is no validation on the user input, making it vulnerable to buffer overflow. A safer alternative, such as <strong>fgets</strong>, which limits the number of characters read, should be used.
+4. Plain-text comparison: Using <strong>strcmp</strong> to compare passwords in plain text is insecure. Passwords should be hashed and the comparison should be done on the hashed values.</p>
 <h4>_start.c</h4>
 <pre><code class="language-c">/* WARNING: Function: __i686.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
 
-void processEntry _start(undefined4 initialize_param, undefined4 auxiliary_param)
+void processEntry _start(undefined4 initParam1,undefined4 initParam2)
 
 {
-  undefined stack_buffer[4];
+  undefined stackBuffer[4];
 
-  __libc_start_main(main, auxiliary_param, &amp;stack_buffer[0], __libc_csu_init, __libc_csu_fini, initialize_param, stack_buffer)
+  __libc_start_main(main, initParam2, &amp;stack0x00000004, __libc_csu_init, __libc_csu_fini, initParam1, stackBuffer)
   ;
   do {
                     /* WARNING: Do nothing block with infinite loop */
@@ -352,24 +361,27 @@ void processEntry _start(undefined4 initialize_param, undefined4 auxiliary_param
 }
 </code></pre>
 <h4>Description</h4>
-<p>This code is an entry point for a program, typical for a C runtime library startup routine. The function <code>processEntry _start</code> calls <code>__libc_start_main</code>, which initializes the C runtime, executes the <code>main</code> function of the program, sets up the initialization (<code>__libc_csu_init</code>) and finalization (<code>__libc_csu_fini</code>) routines. The parameters <code>initialize_param</code> and <code>auxiliary_param</code> are passed in at the start, and <code>stack_buffer</code> is used during the call to <code>__libc_start_main</code>. After the setup is complete, the code enters an infinite loop doing nothing, likely to keep the program running indefinitely.</p>
+<p>The function <strong>processEntry</strong> named <strong>_start</strong> is the initial entry point for the program. It takes two parameters <strong>initParam1</strong> and <strong>initParam2</strong>. Inside the function, there is a declaration of a short stack buffer named <strong>stackBuffer</strong> that only allocates four bytes. The function <strong>__libc_start_main</strong> is then called, which initializes the main program by passing it the <strong>main</strong> function, <strong>initParam2</strong>, the <strong>stack0x00000004</strong> stack address, initialization, and finalization routines (<strong>__libc_csu_init</strong> and <strong>__libc_csu_fini</strong> respectively), and other parameters including <strong>initParam1</strong> and the stack buffer. The code then enters an infinite loop where nothing is executed.</p>
+<p>Security-wise, there is a potential risk with the use of a small stack buffer <strong>stackBuffer</strong> of only 4 bytes which can easily be overrun, leading to stack corruption and potential exploitation through buffer overflow vulnerabilities. Functions like <strong>__libc_start_main</strong> can accept unsafe parameters leading to various vulnerabilities if not handled correctly. Additionally, the infinite loop can lead to the program hanging and not performing any useful operation which is typically not ideal for production code.</p>
 <h4>_init.c</h4>
 <pre><code class="language-c">/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
 
-int initialize(EVP_PKEY_CTX *context)
+int initialize_context(EVP_PKEY_CTX *context)
 
 {
-  undefined *gmonStartPointer;
+  undefined *function_pointer;
 
-  gmonStartPointer = PTR___gmon_start___0804bffc;
+  function_pointer = PTR___gmon_start___0804bffc;
   if (PTR___gmon_start___0804bffc != (undefined *)0x0) {
-    gmonStartPointer = (undefined *)(*(code *)PTR___gmon_start___0804bffc)();
+    function_pointer = (undefined *)(*(code *)PTR___gmon_start___0804bffc)();
   }
-  return (int)gmonStartPointer;
+  return (int)function_pointer;
 }
 </code></pre>
 <h4>Description</h4>
-<p>the code initializes a function named initialize that takes a single argument of type evp_pkey_ctx pointer it defines a local variable gmonstartpointer of type undefined pointer it checks if the external reference ptr__gmon_start__0804bffc is not null if it is not null it calls the function pointed to by ptr__gmon_start__0804bffc and updates gmonstartpointer the function returns the integer conversion of the gmonstartpointer the purpose is likely to initialize or trigger some internal monitoring or profiling mechanism</p>
+<p>The provided function named <strong>_init</strong> has been renamed to <strong>initialize_context</strong> to reflect that it initializes some context, which in this case is passed as an <strong>EVP_PKEY_CTX</strong> pointer. The variable <strong>puVar1</strong> has been renamed to <strong>function_pointer</strong> to clearly indicate that it is intended to store a function pointer.</p>
+<p>The function checks if <strong>PTR<strong><em>gmon</em>start</strong>_0804bffc</strong> is not null, and if it is not, it executes the function pointed to by <strong>PTR<strong><em>gmon</em>start</strong>_0804bffc</strong> and assigns the result to <strong>function_pointer</strong>. The function then returns the integer representation of <strong>function_pointer</strong>.</p>
+<p>There are several potential security concerns in this code. First, the function does not validate the context passed to it; if <strong>context</strong> were to be used within the function and were null or invalid, this could lead to undefined behavior or crashes. Secondly, the function uses a pointer without verifying that it indeed points to a valid function, which could result in executing malicious code if the pointer were tampered with. Finally, returning the integer representation of a possibly null or function base address pointer without checking may cause further issues in calling code, potentially resulting in crashes or unexpected behavior. Famous pitfalls relate to pointer handling, including buffer overflows or improper pointer casting, which are common vulnerabilities in C programming.</p>
 <h3>ChatGPT Analysis</h3>
 <h2>Exploit</h2>
 <h3>Fuzzing</h3>

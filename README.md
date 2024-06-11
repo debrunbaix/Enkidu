@@ -46,6 +46,8 @@ Pour obtenir le code assembleur du binaire, Enkidu cherche dans le contenue des 
 
 Pour l'obtention du pseudo code C, Enkidu utilise `Ghidra` et son scripts `AnalyseHeadless` afin d'executer Ghidra en ligne de commande avec mon script de decompilateur dans `/decompile_zone/script/decompiler.py`.
 
+Afin d'avoir un pseudo code C lisible avec des noms de fonctions et de variable compréhensibles, l'utilisateur peut choisir grâce à l'argument `-ai / --aiAssist` de modifier le pseudo code et d'obtenir un paragraphe explicatif du code grâce à l'API de `ChatGPT`.
+
 En ce qui concerne la génération de rapports, Enkidu utilise :
 
 - `markdown` pour convertir le texte formaté en Markdown en HTML. Cela permet une flexibilité dans la rédaction du contenu du rapport, qui peut ensuite être facilement converti en un format web visualisable.
@@ -81,15 +83,15 @@ En ce qui concerne la génération de rapports, Enkidu utilise :
 
     - [x] Analyse des sécurités du binaire.
 
-- [ ] Analyser les outputs grâce à ChatGPT.
+- [x] Analyser les outputs grâce à ChatGPT.
 
 - [ ] Tentatives d'exploitation automatiques pour contourner les défenses des binaires.
 
-    - [ ] Fuzztesting des entrées utilisateurs.
+    - [x] Fuzztesting des entrées utilisateurs.
 
-        - [x] level 1 : Test avec les strings récupéré avant.
+        - [x] level 0 : Test avec les strings récupéré avant.
 
-        - [ ] level 2 : fuzztesting avancé.
+        - [ ] level 1 : fuzztesting avancé.
 
     - [ ] Tentative d'exploitation binaire.
 
@@ -132,8 +134,35 @@ cd enkidu
 3. Installer les dépendances :
 
 ```bash
-python -m pip install -m requirement.txt
+source venv/bin/activate
+python3 -m pip install -m requirement.txt
 
+```
+---
+
+## Utilisation
+
+### Execution
+
+```bash
+source venv/bin/activate
+python3 -m app.main -t <path_to_binary>
+``` 
+
+### Arguments
+
+```bash
+python3 -m app.main -h  
+usage: main.py [-h] -t TARGET [-v] [-ai]
+
+Target File
+
+options:
+  -h, --help            show this help message and exit
+  -t TARGET, --target TARGET
+                        Mettre un binaire en input
+  -v, --verbose         Affiche plus d\'informations sur l\'execution en cours
+  -ai, --aiAssist       Permet d\'améliorer la compréhension des résultats grâce à l\'API de ChatGPT.
 ```
 
 ---
@@ -144,41 +173,49 @@ python -m pip install -m requirement.txt
 
 ```
 Enkidu/
-├── app/                       # Répertoire principal de l'application
-│   ├── analyse/               # Contient des scripts pour l'analyse de binaire
-│   │   ├── analyse.py         # Script d'initialisation des analyses
-│   │   ├── assembly.py        # Script pour analyser le code assembleur
-│   │   ├── sections.py        # Script pour analyser les sections du binaire
+├── app/                            # Répertoire principal de l'application
+│   ├── ai_assist/                  # Scripts pour l'assistance AI
+│   │   ├── ai_analyse.py           # Script pour l'analyse AI
 │   │   └── __init__.py        
-│   ├── enumeration/           # Scripts pour l'énumération des binaires
-│   │   ├── enum_cmd.py        # Commandes pour l'énumération
-│   │   ├── enum.py            # Script pour lancer l'énumération
+|   |
+│   ├── analyse/                    # Contient des scripts pour l'analyse de binaire
+│   │   ├── analyse.py              # Script d'initialisation des analyses
+│   │   ├── assembly.py             # Script pour analyser le code assembleur
+│   │   ├── get_src_code.py         # Script pour obtenir le code source
+│   │   ├── sections.py             # Script pour analyser les sections du binaire
+│   │   └── __init__.py    
+|   |    
+│   ├── decompile_zone/             # Scripts pour la décompilation
+│   │   ├── function_filter.py      # Filtrage des fonctions
+│   │   ├── get_disassembly_code.py # Récupération du code désassemblé
+│   │   ├── projects/               # Projets de décompilation
+│   │   ├── script/                 # Scripts de décompilation
+│   │   └── __init__.py     
+|   |   
+│   ├── enumeration/                # Scripts pour l'énumération des binaires
+│   │   ├── enum_cmd.py             # Commandes pour l'énumération
+│   │   ├── enum.py                 # Script pour lancer l'énumération
 │   │   └── __init__.py        
+|   |
 │   ├── __init__.py            
-│   ├── main.py                # Point d'entrée principal du projet
-│   ├── output_functions.py    # Fonctions pour gérer les sorties (log, affichage)
-│   ├── fuzztesting.py         # Script pour le fuzz testing des binaires
-│   ├── report.py              # Script pour générer les rapports Markdown, HTML/CSS, PDF
-│   ├── styles/                # Dossier pour les fichiers CSS et autres ressources de style
-│   │   ├── DejaVuSans.ttf     # Police de caractères pour les rapports
-│   │   └── styles.css         # Feuille de style CSS pour les rapports
-│   └── testFile/              # Dossier contenant des fichiers de test ou exemples de binaires
-├── attachments/               # Dossier pour les fichiers joints ou annexes (si nécessaire)
-├── LICENSE                    # Fichier de licence pour le projet
-├── login_report_2024-05-15/   # Exemple de rapport généré
-├── README.md                  # Fichier Markdown fournissant des informations sur le projet
-├── requirements.txt           # Liste des dépendances Python nécessaires
-└── venv/                      # Environnement virtuel Python
+│   ├── main.py                     # Point d'entrée principal du projet
+│   ├── output_functions.py         # Fonctions pour gérer les sorties (log, affichage)
+│   ├── fuzztesting.py              # Script pour le fuzz testing des binaires
+│   ├── report.py                   # Script pour générer les rapports Markdown, HTML/CSS, PDF
+│   ├── styles/                     # Dossier pour les fichiers CSS et autres ressources de style
+│   └── testFile/                   # Dossier contenant des fichiers de test ou exemples de binaires
+|           
+├── LICENSE                         # Fichier de licence pour le projet
+├── login_report_2024-06-11/        # Exemple de rapport généré
+│   ├── disassembly_code/           # Code désassemblé du binaire
+│   ├── login_report.html           # Rapport en format HTML
+│   ├── login_report.md             # Rapport en format Markdown
+│   └── login_report.pdf            # Rapport en format PDF
+|
+├── README.md                       # Fichier Markdown fournissant des informations sur le projet
+├── requirements.txt                # Liste des dépendances Python nécessaires
+└── venv/                           # Environnement virtuel Python
 ```
-
----
-
-## Utilisation
-
-```bash
-source venv/bin/activate
-python3 -m app.main -t <path_to_binary>
-``` 
 
 ---
 
