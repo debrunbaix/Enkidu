@@ -59,7 +59,7 @@ def file_cmd(FILENAME, VERBOSE):
 #
 def checksec_cmd(FILENAME, VERBOSE):
 
-    CHECKSEC_CMD = ['checksec', '--output=json', '--file=' + FILENAME]
+    CHECKSEC_CMD = ['/usr/bin/checksec', '--output=json', '--file=' + FILENAME]
     checksec_cmd_output = subprocess.check_output(CHECKSEC_CMD, universal_newlines=True)
 
     output('info', 1, checksec_cmd_output) if VERBOSE else None
