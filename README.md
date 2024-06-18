@@ -149,6 +149,8 @@ source venv/bin/activate
 python3 -m app.main -t <path_to_binary>
 ``` 
 
+![Usage Example](attachments/enkidu_test.gif)
+
 ### Arguments
 
 ```bash

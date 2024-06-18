@@ -1,0 +1,432 @@
+<h1>Report for login at 2024-06-18</h1>
+<h2>Enkidu by Debrunbaix.</h2>
+<div></div>
+<h2>Summary</h2>
+<ul>
+<li><a href="#general-information">General Information</a></li>
+<li><a href="#security-of-the-binary">Security of the Binary</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#assembly-code">Assembly Code</a></li>
+<li><a href="#code-analysis">Code Analysis</a></li>
+<li><a href="#exploits">Exploits</a></li>
+<li><a href="#credits">Credits</a></li>
+</ul>
+<div></div>
+<h2>Enumeration</h2>
+<h3>Binary Information</h3>
+<table>
+<tr>
+<th>File Name</th>
+<th>Path</th>
+<th>Format</th>
+<th>Bit</th>
+</tr>
+<tr>
+<td>login</td>
+<td>app/testFile/login</td>
+<td>ELF</td>
+<td>32-bit</td>
+</tr>
+</table>
+
+<blockquote>
+<p>This information comes from the <strong>file</strong> command.</p>
+</blockquote>
+<h3>Security of the Binary</h3>
+<table>
+<tr><th colspan='4'>Basic Security Features</th></tr>
+<tr>
+<th>Linked</th>
+<th>Stripped</th>
+<th>RELRO</th>
+<th>Canary</th>
+</tr>
+<tr>
+<td>dynamically linked</td>
+<td>no</td>
+<td>partial</td>
+<td>no</td>
+</tr>
+</table>
+
+<table>
+<tr><th colspan='3'>Advanced Security Mechanisms</th></tr>
+<tr>
+<th>NX</th>
+<th>PIE</th>
+<th>RPath</th>
+</tr>
+<tr>
+<td>no</td>
+<td>no</td>
+<td>no</td>
+</tr>
+</table>
+
+<table>
+<tr><th colspan='3'>Security Meta-Information</th></tr>
+<tr>
+<th>RunPath</th>
+<th>Symbols</th>
+<th>Fortify Source</th>
+</tr>
+<tr>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+</table>
+
+<blockquote>
+<p>This information comes from the <strong>checksec</strong> command.</p>
+</blockquote>
+<div></div>
+<h3>Strings</h3>
+<ul>
+<li>Enter admin password: </li>
+<li>pass</li>
+<li>Correct Password!</li>
+<li>Incorrect Password!</li>
+<li>Successfully logged in as Admin (authorised=%d) :)</li>
+<li>Failed to log in as Admin (authorised=%d) :(</li>
+<li>login.c</li>
+<li>.note.gnu.build-id<blockquote>
+<p>This information comes from Binary secions and the <strong>strings</strong> command.</p>
+</blockquote>
+</li>
+</ul>
+<h3>Vulnerable Functions</h3>
+<ul>
+<li>gets</li>
+<li>printf</li>
+</ul>
+<h3>Libraries</h3>
+<ul>
+<li>linux-gate.so.1</li>
+<li>libc.so.6</li>
+<li>/lib/ld-linux.so.2<blockquote>
+<p>This information comes from the <strong>ldd</strong> command.</p>
+</blockquote>
+</li>
+</ul>
+<div></div>
+
+<h3>Assembly Code</h3>
+<pre><code class="language-assembly">xor ebp, ebp
+pop esi
+mov ecx, esp
+and esp, 0xfffffff0
+push eax
+push esp
+push edx
+call 0x80490b3
+add ebx, 0x2f70
+lea eax, [ebx - 0x2d40]
+push eax
+lea eax, [ebx - 0x2da0]
+push eax
+push ecx
+push esi
+mov eax, 0x8049192
+push eax
+call 0x8049070
+hlt
+mov ebx, dword ptr [esp]
+ret
+nop
+nop
+nop
+nop
+nop
+ret
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+mov ebx, dword ptr [esp]
+ret
+nop
+nop
+nop
+nop
+nop
+nop
+mov eax, 0x804c028
+cmp eax, 0x804c028
+je 0x8049110
+mov eax, 0
+test eax, eax
+je 0x8049110
+push ebp
+mov ebp, esp
+sub esp, 0x14
+push 0x804c028
+call eax
+add esp, 0x10
+leave
+ret
+lea esi, [esi]
+nop
+ret
+lea esi, [esi]
+lea esi, [esi]
+nop
+mov eax, 0x804c028
+sub eax, 0x804c028
+mov edx, eax
+shr eax, 0x1f
+sar edx, 2
+add eax, edx
+sar eax, 1
+je 0x8049158
+mov edx, 0
+test edx, edx
+je 0x8049158
+push ebp
+mov ebp, esp
+sub esp, 0x10
+push eax
+push 0x804c028
+call edx
+add esp, 0x10
+leave
+ret
+lea esi, [esi]
+ret
+lea esi, [esi]
+cmp byte ptr [0x804c028], 0
+jne 0x8049180
+push ebp
+mov ebp, esp
+sub esp, 8
+call 0x80490e0
+mov byte ptr [0x804c028], 1
+leave
+ret
+lea esi, [esi]
+ret
+lea esi, [esi]
+lea esi, [esi]
+nop
+jmp 0x8049120
+lea ecx, [esp + 4]
+and esp, 0xfffffff0
+push dword ptr [ecx - 4]
+push ebp
+mov ebp, esp
+push ebx
+push ecx
+sub esp, 0x10
+call 0x80490d0
+add ebx, 0x2e57
+mov dword ptr [ebp - 0xc], 0
+sub esp, 0xc
+lea eax, [ebx - 0x1ff8]
+push eax
+call 0x8049060
+add esp, 0x10
+sub esp, 0xc
+lea eax, [ebp - 0x12]
+push eax
+call 0x8049050
+add esp, 0x10
+sub esp, 8
+lea eax, [ebx - 0x1fe1]
+push eax
+lea eax, [ebp - 0x12]
+push eax
+call 0x8049030
+add esp, 0x10
+test eax, eax
+jne 0x804920c
+sub esp, 0xc
+lea eax, [ebx - 0x1fdc]
+push eax
+call 0x8049060
+add esp, 0x10
+mov dword ptr [ebp - 0xc], 1
+jmp 0x804921e
+sub esp, 0xc
+lea eax, [ebx - 0x1fca]
+push eax
+call 0x8049060
+add esp, 0x10
+cmp dword ptr [ebp - 0xc], 0
+je 0x804923b
+sub esp, 8
+push dword ptr [ebp - 0xc]
+lea eax, [ebx - 0x1fb4]
+push eax
+call 0x8049040
+add esp, 0x10
+jmp 0x8049250
+sub esp, 8
+push dword ptr [ebp - 0xc]
+lea eax, [ebx - 0x1f80]
+push eax
+call 0x8049040
+add esp, 0x10
+mov eax, 0
+lea esp, [ebp - 8]
+pop ecx
+pop ebx
+pop ebp
+lea esp, [ecx - 4]
+ret
+nop
+push ebp
+call 0x80492c1
+add ebp, 0x2d9a
+push edi
+push esi
+push ebx
+sub esp, 0xc
+mov ebx, ebp
+mov edi, dword ptr [esp + 0x28]
+call 0x8049000
+lea ebx, [ebp - 0xf0]
+lea eax, [ebp - 0xf4]
+sub ebx, eax
+sar ebx, 2
+je 0x80492b5
+xor esi, esi
+lea esi, [esi]
+sub esp, 4
+push edi
+push dword ptr [esp + 0x2c]
+push dword ptr [esp + 0x2c]
+call dword ptr [ebp + esi*4 - 0xf4]
+add esi, 1
+add esp, 0x10
+cmp ebx, esi
+jne 0x8049298
+add esp, 0xc
+pop ebx
+pop esi
+pop edi
+pop ebp
+ret
+lea esi, [esi]
+ret
+mov ebp, dword ptr [esp]
+ret
+</code></pre>
+<blockquote>
+<p>This information comes from the Capstone's library and elftools command.</p>
+</blockquote>
+<div></div>
+<h2>Code Analysis</h2>
+<h3>Pseudo C Code</h3>
+<h4>main.c</h4>
+<pre><code class="language-c">/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+
+undefined4 main(void)
+
+{
+  int comparisonResult;
+  char passwordInput[6];
+  int isAuthenticated;
+  undefined *stackPointer;
+
+  stackPointer = &amp;stack0x00000004;
+  isAuthenticated = 0;
+  puts(&quot;Enter admin password: &quot;);
+  gets(passwordInput);
+  comparisonResult = strcmp(passwordInput,&quot;pass&quot;);
+  if (comparisonResult == 0) {
+    puts(&quot;Correct Password!&quot;);
+    isAuthenticated = 1;
+  }
+  else {
+    puts(&quot;Incorrect Password!&quot;);
+  }
+  if (isAuthenticated == 0) {
+    printf(&quot;Failed to log in as Admin (authorised=%d) :(\n&quot;,0);
+  }
+  else {
+    printf(&quot;Successfully logged in as Admin (authorised=%d) :)\n&quot;,isAuthenticated);
+  }
+  return 0;
+}
+</code></pre>
+<h4>Description</h4>
+<p>The provided code prompts the user to enter an admin password, reads the input using gets, and then compares it with the string "pass" to determine if the entered password is correct. If the password matches, it prints a success message and sets the isAuthenticated variable to 1. Otherwise, it prints a failure message. The value of isAuthenticated is then used to print whether the login was successful or not.</p>
+<p>The primary security issue with this code is the use of the gets function to read the password input. The gets function does not perform bounds checking and is therefore susceptible to buffer overflow attacks, where an attacker could overflow the passwordInput buffer to execute arbitrary code or manipulate the program's execution. This vulnerability can be mitigated by using safer functions like fgets or scanf with a specified limit on input length. Additionally, it is a bad practice to use hardcoded passwords in the code as it can lead to security vulnerabilities if the code is exposed or reverse-engineered. To improve the security of handling passwords, consider using secure password hashing mechanisms and proper password storage strategies.</p>
+<blockquote>
+<p>This information comes from Ghidra CLI and the OpenAi's API.</p>
+</blockquote>
+<h4>_start.c</h4>
+<pre><code class="language-c">Changed code:
+
+
+/* WARNING: Function: __i686.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+
+void entryPoint _start(undefined4 mainFunc, undefined4 stackSize)
+
+{
+  undefined stackMemory [4];
+
+  __libc_start_main(main, stackSize, &amp;stack0x00000004, __libc_csu_init, __libc_csu_fini, mainFunc, stackMemory);
+  do {
+                    /* WARNING: Do nothing block with infinite loop */
+  } while(true);
+}
+</code></pre>
+<h4>Description</h4>
+<p>The code initializes a program using the <strong>__libc_start_main</strong> function, which is common in Linux systems to set up the main execution environment and prepare to call the main function. The function <strong>entryPoint</strong> (originally <strong>processEntry</strong>) takes two parameters which were renamed for clarity: <strong>mainFunc</strong> and <strong>stackSize</strong>. The local variable <strong>auStack_4</strong> was renamed to <strong>stackMemory</strong> to reflect more clearly that it represents some allocated stack space. After initialization, the code enters an infinite loop that does nothing.</p>
+<p>There are several security considerations with this code, primarily stemming from the use of <strong>undefined</strong> types and the lack of proper error checking which can lead to vulnerabilities such as buffer overflows or stack corruption. Additionally, the infinite loop could be a potential point of Denial of Service (DoS) attack if not properly managed. Functions like <strong>__libc_start_main</strong> are generally safe if used correctly, but misuse or erroneous parameters can compromise the program’s security, making robust and secure handling crucial.</p>
+<blockquote>
+<p>This information comes from Ghidra CLI and the OpenAi's API.</p>
+</blockquote>
+<h4>_init.c</h4>
+<pre><code class="language-c">/* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
+
+int initialize(EVP_PKEY_CTX *context)
+
+{
+  undefined *functionPointer;
+
+  functionPointer = PTR___gmon_start___0804bffc;
+  if (PTR___gmon_start___0804bffc != (undefined *)0x0) {
+    functionPointer = (undefined *)(*(code *)PTR___gmon_start___0804bffc)();
+  }
+  return (int)functionPointer;
+}
+</code></pre>
+<h4>Description</h4>
+<p>The provided C pseudo code has a function named _init which has been renamed to initialize for better readability. The parameter ctx has been renamed to context for clarity. The variable puVar1 has been renamed functionPointer to give more context as to its role in pointing to a function. </p>
+<p>This code includes a check on a pointer PTR<strong><em>gmon</em>start</strong>_0804bffc, and if it is not null, it attempts to call the function at that location. One important security consideration here is the dereferencing and indirect call of a function pointer. It is critical to ensure that this pointer points to a legitimate and safe function to avoid arbitrary code execution or corruption. Furthermore, the use of undefined pointers (type undefined *) can be unsafe because it relies on implicit casting, which can lead to undefined behavior if not handled carefully. Proper type definitions and checks should be enforced to mitigate risks. Ensuring that pointers are valid and operations on them are secure is paramount to avoid vulnerabilities like buffer overflows, code injection, and other security issues.</p>
+<blockquote>
+<p>This information comes from Ghidra CLI and the OpenAi's API.</p>
+</blockquote>
+<div></div>
+<h2>Exploit</h2>
+<h3>Fuzzing</h3>
+<p>Exploit success with this input :</p>
+<ul>
+<li>
+<p>pass</p>
+</li>
+<li>
+<p>login.c</p>
+</li>
+</ul>
+<h3>Buffer Overflow</h3>
+<p>To determine if a buffer overflow is possible, the process involves injecting progressively larger payloads into the target binary and observing the results. By starting with a small payload and incrementally increasing its size, the goal is to trigger a <strong>segmentation fault</strong>, which indicates a buffer overflow vulnerability. If such a fault occurs, the binary is deemed vulnerable, and the specific payload size at which this happens is noted. This method ensures a systematic approach to identifying potential vulnerabilities within a predefined limit.</p>
+<p>The memory of the binary is writable with this offset : 12</p>
+<div></div>
+<h2>Credits</h2>
+<p>The development of Enkidu utilized various tools and libraries to achieve its functionality:</p>
+<p><strong>file</strong>: For determining file types.</p>
+<p><strong>checksec</strong>: To check the security properties of binaries.</p>
+<p><strong>strings</strong>: For extracting printable strings from files.</p>
+<p><strong>ldd</strong>: To list dynamic dependencies of executables.</p>
+<p><strong>elftools</strong> &amp; <strong>capstone</strong>: For parsing and analyzing ELF files and disassembling binaries.</p>
+<p><strong>Ghidra</strong>: Used for decompiling binaries into C-like pseudocode through the AnalyseHeadless script.</p>
+<p><strong>ChatGPT API</strong>: For enhancing code comprehension and generating explanatory paragraphs.</p>
+<p><strong>markdown</strong>: For converting text formatted in Markdown to HTML, facilitating report generation.</p>
+<p><strong>WeasyPrint</strong>: To convert HTML documents into PDF files for easy distribution and archiving of reports.</p>
