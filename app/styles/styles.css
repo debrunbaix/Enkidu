@@ -21,7 +21,7 @@ h1,h2{
 }
 
 h3{
-    color: rgb(0, 234, 255); /* Titres en orange */
+    color: #5E0B15; /* Titres en orange */
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -43,6 +43,7 @@ pre {
 a {
     color: rgb(140, 61, 219);
     text-decoration: none;
+    font-size: x-large;
 }
 
 a:hover {

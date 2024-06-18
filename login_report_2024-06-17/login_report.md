@@ -1,4 +1,6 @@
-# Report for login at 2024-06-16
+# Report for login at 2024-06-17
+
+## Enkidu by Debrunbaix.
 
 <div></div>
 ## Summary
@@ -30,6 +32,8 @@
 <td>32-bit</td>
 </tr>
 </table>
+
+> This information comes from the **file** command.
 
 ### Security of the Binary
 
@@ -77,6 +81,9 @@
 </tr>
 </table>
 
+> This information comes from the **checksec** command.
+
+<div></div>
 ### Strings
 
 - Enter admin password: 
@@ -87,6 +94,8 @@
 - Failed to log in as Admin (authorised=%d) :(
 - login.c
 - .note.gnu.build-id
+> This information comes from Binary secions and the **strings** command.
+
 
 ### Vulnerable Functions
 
@@ -98,6 +107,9 @@
 - linux-gate.so.1
 - libc.so.6
 - /lib/ld-linux.so.2
+> This information comes from the **ldd** command.
+
+<div></div>
 
 ### Assembly Code
 ```assembly
@@ -305,6 +317,8 @@ mov ebp, dword ptr [esp]
 ret
 ```
 
+> This information comes from the Capstone's library and elftools command.
+
 <div></div>
 ## Code Analysis
 
@@ -347,6 +361,8 @@ undefined4 main(void)
 
 ```
 
+> This information comes from Ghidra CLI.
+
 #### _start.c
 ```c
 
@@ -366,6 +382,8 @@ void processEntry _start(undefined4 param_1,undefined4 param_2)
 
 
 ```
+
+> This information comes from Ghidra CLI.
 
 #### _init.c
 ```c
@@ -387,13 +405,14 @@ int _init(EVP_PKEY_CTX *ctx)
 
 ```
 
-### ChatGPT Analysis
+> This information comes from Ghidra CLI.
 
+<div></div>
 ## Exploit
 
 ### Fuzzing
 
-Exploit success with these input :
+Exploit success with this input :
 
 - pass
 
@@ -401,8 +420,28 @@ Exploit success with these input :
 
 ### Buffer Overflow
 
-### Format String
+To determine if a buffer overflow is possible, the process involves injecting progressively larger payloads into the target binary and observing the results. By starting with a small payload and incrementally increasing its size, the goal is to trigger a **segmentation fault**, which indicates a buffer overflow vulnerability. If such a fault occurs, the binary is deemed vulnerable, and the specific payload size at which this happens is noted. This method ensures a systematic approach to identifying potential vulnerabilities within a predefined limit.
 
+The memory of the binary is writable with this offset : 12
+<div></div>
 ## Credits
 
-This report was generated using automated tools and the expert analysis of security researchers.
+The development of Enkidu utilized various tools and libraries to achieve its functionality:
+
+**file**: For determining file types.
+
+**checksec**: To check the security properties of binaries.
+
+**strings**: For extracting printable strings from files.
+
+**ldd**: To list dynamic dependencies of executables.
+
+**elftools** & **capstone**: For parsing and analyzing ELF files and disassembling binaries.
+
+**Ghidra**: Used for decompiling binaries into C-like pseudocode through the AnalyseHeadless script.
+
+**ChatGPT API**: For enhancing code comprehension and generating explanatory paragraphs.
+
+**markdown**: For converting text formatted in Markdown to HTML, facilitating report generation.
+
+**WeasyPrint**: To convert HTML documents into PDF files for easy distribution and archiving of reports.

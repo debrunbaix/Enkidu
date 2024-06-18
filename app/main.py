@@ -77,7 +77,6 @@ def main():
     # EXPLOITING/TESTING
     fuzz_output_0 = fuzztest(binary_info, TARGET_FILE_PATH, VERBOSE)
     exploit_object = exploit_test(binary_info, TARGET_FILE_PATH, VERBOSE)
-    print(exploit_object)
 
     # AI ASSIST
     if AI_ASSIST :
@@ -91,7 +90,8 @@ def main():
         assembly_code,
         fuzz_output_0,
         disassembly_function,
-        DISASSEMBLY_CODE_PATH
+        DISASSEMBLY_CODE_PATH,
+        exploit_object
     )
     return 1
 

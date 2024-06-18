@@ -1,4 +1,5 @@
-<h1>Report for login at 2024-06-15</h1>
+<h1>Report for login at 2024-06-17</h1>
+<h2>Enkidu by Debrunbaix.</h2>
 <div></div>
 <h2>Summary</h2>
 <ul>
@@ -28,6 +29,9 @@
 </tr>
 </table>
 
+<blockquote>
+<p>This information comes from the <strong>file</strong> command.</p>
+</blockquote>
 <h3>Security of the Binary</h3>
 <table>
 <tr><th colspan='4'>Basic Security Features</th></tr>
@@ -73,6 +77,10 @@
 </tr>
 </table>
 
+<blockquote>
+<p>This information comes from the <strong>checksec</strong> command.</p>
+</blockquote>
+<div></div>
 <h3>Strings</h3>
 <ul>
 <li>Enter admin password: </li>
@@ -82,7 +90,10 @@
 <li>Successfully logged in as Admin (authorised=%d) :)</li>
 <li>Failed to log in as Admin (authorised=%d) :(</li>
 <li>login.c</li>
-<li>.note.gnu.build-id</li>
+<li>.note.gnu.build-id<blockquote>
+<p>This information comes from Binary secions and the <strong>strings</strong> command.</p>
+</blockquote>
+</li>
 </ul>
 <h3>Vulnerable Functions</h3>
 <ul>
@@ -93,8 +104,13 @@
 <ul>
 <li>linux-gate.so.1</li>
 <li>libc.so.6</li>
-<li>/lib/ld-linux.so.2</li>
+<li>/lib/ld-linux.so.2<blockquote>
+<p>This information comes from the <strong>ldd</strong> command.</p>
+</blockquote>
+</li>
 </ul>
+<div></div>
+
 <h3>Assembly Code</h3>
 <pre><code class="language-assembly">xor ebp, ebp
 pop esi
@@ -299,6 +315,9 @@ ret
 mov ebp, dword ptr [esp]
 ret
 </code></pre>
+<blockquote>
+<p>This information comes from the Capstone's library and elftools command.</p>
+</blockquote>
 <div></div>
 <h2>Code Analysis</h2>
 <h3>Pseudo C Code</h3>
@@ -337,6 +356,9 @@ undefined4 main(void)
 
 
 </code></pre>
+<blockquote>
+<p>This information comes from Ghidra CLI.</p>
+</blockquote>
 <h4>_start.c</h4>
 <pre><code class="language-c">
 /* WARNING: Function: __i686.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
@@ -355,6 +377,9 @@ void processEntry _start(undefined4 param_1,undefined4 param_2)
 
 
 </code></pre>
+<blockquote>
+<p>This information comes from Ghidra CLI.</p>
+</blockquote>
 <h4>_init.c</h4>
 <pre><code class="language-c">
 /* WARNING: Function: __x86.get_pc_thunk.bx replaced with injection: get_pc_thunk_bx */
@@ -373,10 +398,13 @@ int _init(EVP_PKEY_CTX *ctx)
 
 
 </code></pre>
-<h3>ChatGPT Analysis</h3>
+<blockquote>
+<p>This information comes from Ghidra CLI.</p>
+</blockquote>
+<div></div>
 <h2>Exploit</h2>
 <h3>Fuzzing</h3>
-<p>Exploit success with these input :</p>
+<p>Exploit success with this input :</p>
 <ul>
 <li>
 <p>pass</p>
@@ -386,6 +414,17 @@ int _init(EVP_PKEY_CTX *ctx)
 </li>
 </ul>
 <h3>Buffer Overflow</h3>
-<h3>Format String</h3>
+<p>To determine if a buffer overflow is possible, the process involves injecting progressively larger payloads into the target binary and observing the results. By starting with a small payload and incrementally increasing its size, the goal is to trigger a <strong>segmentation fault</strong>, which indicates a buffer overflow vulnerability. If such a fault occurs, the binary is deemed vulnerable, and the specific payload size at which this happens is noted. This method ensures a systematic approach to identifying potential vulnerabilities within a predefined limit.</p>
+<p>The memory of the binary is writable with this offset : 12</p>
+<div></div>
 <h2>Credits</h2>
-<p>This report was generated using automated tools and the expert analysis of security researchers.</p>
+<p>The development of Enkidu utilized various tools and libraries to achieve its functionality:</p>
+<p><strong>file</strong>: For determining file types.</p>
+<p><strong>checksec</strong>: To check the security properties of binaries.</p>
+<p><strong>strings</strong>: For extracting printable strings from files.</p>
+<p><strong>ldd</strong>: To list dynamic dependencies of executables.</p>
+<p><strong>elftools</strong> &amp; <strong>capstone</strong>: For parsing and analyzing ELF files and disassembling binaries.</p>
+<p><strong>Ghidra</strong>: Used for decompiling binaries into C-like pseudocode through the AnalyseHeadless script.</p>
+<p><strong>ChatGPT API</strong>: For enhancing code comprehension and generating explanatory paragraphs.</p>
+<p><strong>markdown</strong>: For converting text formatted in Markdown to HTML, facilitating report generation.</p>
+<p><strong>WeasyPrint</strong>: To convert HTML documents into PDF files for easy distribution and archiving of reports.</p>

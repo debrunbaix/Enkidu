@@ -91,9 +91,9 @@ En ce qui concerne la génération de rapports, Enkidu utilise :
 
         - [x] level 0 : Test avec les strings récupéré avant.
 
-        - [ ] level 1 : fuzztesting avancé.
+        - [ ] level 1 : fuzztesting avancé. (annulé pour l'instant)
 
-    - [ ] Tentative d'exploitation binaire.
+    - [x] Tentative d'exploitation binaire.
 
     - [ ] Tentative d'exploitation de format de chaine.
 
@@ -197,6 +197,11 @@ Enkidu/
 │   │   ├── enum.py                 # Script pour lancer l'énumération
 │   │   └── __init__.py        
 |   |
+│   ├── exploit_test/               # Scripts pour les tests d'exploitation
+│   │   ├── buffer_overflow.py      # Script pour tester les débordements de tampon
+│   │   ├── exploit_test.py         # Script principal pour lancer les tests d'exploitation
+│   │   └── __init__.py        
+│   │
 │   ├── __init__.py            
 │   ├── main.py                     # Point d'entrée principal du projet
 │   ├── output_functions.py         # Fonctions pour gérer les sorties (log, affichage)
