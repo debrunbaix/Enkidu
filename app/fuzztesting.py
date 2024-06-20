@@ -3,7 +3,7 @@ from app.output_functions import output
 
 def fuzztest(binary_info, path, VERBOSE):
 
-    output('+', 0, 'Fuzzing level 0.')
+    output('+', 0, 'Fuzz testing level 0:')
     wordlist = binary_info['printed strings']
 
     level_0 = {
@@ -19,10 +19,10 @@ def fuzztest(binary_info, path, VERBOSE):
         error = result.stderr
 
         if success:
-            output('+', 1, f'Success with : {string}')
+            output('+', 1, f'Successfull with input: {string}')
             level_0['success'].append(string)
         elif error and VERBOSE:
-            output('-', 1, f'Error with : {string}')
+            output('-', 1, f'Error with input: {string}')
             level_0['error'].append(string)
 
     return level_0

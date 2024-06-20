@@ -13,7 +13,7 @@ Je vous fournis un pseudo code C généré avec Ghidra. Veuillez changer les nom
 def get_openai_api_key():
     dotenv.load_dotenv()
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-    output('+', 1, 'Getting API key done.')
+    output('+', 1, 'OpenAI API key retrieved successfully.')
     return OPENAI_API_KEY
 #
 # Function to request OpenAI's API to get better name varaible and description of code
@@ -53,13 +53,13 @@ def format_gpt_description(object):
     return object
 
 def pseudoC_to_readableC(pseudoC, DISASSEMBLY_CODE_PATH, VERBOSE):
-    output('+', 0, 'ChatGPT Analysis.')
+    output('+', 0, 'Performing ChatGPT analysis:')
     OPENAI_API_KEY = get_openai_api_key()
     client = OpenAI(api_key=OPENAI_API_KEY)
     result = {}
 
     for function in pseudoC:
-        output("+", 1, f"Requesting OpenAI for the function {function}")
+        output("+", 1, f"Requesting analysis for function {function}")
         result[function] = gpt_analyse(function, OPENAI_API_KEY, DISASSEMBLY_CODE_PATH, client, VERBOSE)
         result[function] =  format_gpt_description(result[function])
 

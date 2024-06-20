@@ -15,14 +15,14 @@ def get_elf_binary_sections(elffile, sections):
     return sections
 
 def analyse(info, binary, VERBOSE):
-    output('+', 0, 'Analyse binary')
+    output('+', 0, 'Analysing binary:')
     elffile = ELFFile(binary)
     sections = {}
 
     if info['format'] == 'ELF':
         sections = get_elf_binary_sections(elffile, sections)
         output('info', 1, sections) if VERBOSE else None
-        output('+', 1, 'Get binary\'s sections done.')
+        output('+', 1, 'Extracted binary sections.')
     else :
         output('-', 1, 'Please provide ELF binary.')
     

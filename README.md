@@ -148,8 +148,13 @@ python3 -m pip install -m requirement.txt
 source venv/bin/activate
 python3 -m app.main -t <path_to_binary>
 ``` 
+#### Exemple avec analyse IA:
 
 ![Usage Example](attachments/enkidu_test.gif)
+
+#### Exemple avec verbosité:
+
+![verbose Example](attachments/enkidu_verbose.gif)
 
 ### Arguments
 

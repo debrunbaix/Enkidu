@@ -191,7 +191,7 @@ def convert_html_to_pdf(html_path, pdf_path, css_path=None):
 
 def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH, exploit_object): 
 
-    output('+', 0, 'Generating report.')
+    output('+', 0, 'Generating report:')
 
     # Définition des chemins pour les fichiers du rapport
     md_path = os.path.join(report_folder, f"{binary_info['name']}_report.md")
@@ -204,13 +204,13 @@ def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_o
     with open(md_path, 'w', encoding='utf-8') as md_file:
         md_file.write(report_content)
     
-    output('+', 1, f'Markdown report created : {md_path}')
+    output('+', 1, f'Markdown report created: {md_path}')
 
     html_content = markdown_to_html(report_content)
     write_html_file(html_content, html_path)
 
-    output('+', 1, f'HTML report created : {html_path}')
+    output('+', 1, f'HTML report created: {html_path}')
 
     convert_html_to_pdf(html_path, pdf_path, css_path)
 
-    output('+', 1, f'PDF report created : {pdf_path}')
+    output('+', 1, f'PDF report created: {pdf_path}')

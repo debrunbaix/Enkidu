@@ -58,7 +58,7 @@ def main():
 
     try:
         binary = open(TARGET_FILE_PATH, 'rb')
-        output('+', 0, f'Success opening {BINARY_NAME}.')
+        output('+', 0, f'Successfully opened {BINARY_NAME} binary.')
     except:
         output('-', 0, 'File doesn\'t exist.')
         exit()

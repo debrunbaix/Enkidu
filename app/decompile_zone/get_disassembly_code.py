@@ -16,7 +16,7 @@ def vrfy_path(path, BINARY_NAME, VERBOSE):
 
 def get_disassembly_code(BINARY_NAME, TARGET_FILE_PATH, DISASSEMBLY_CODE_PATH, VERBOSE):
 
-    output("+", 0, "Decompiling Binary.")
+    output("+", 0, "Decompiling Binary:")
 
     ghidra_headless = "/usr/local/bin/ghidra_10.4_PUBLIC/support/analyzeHeadless"
     project_path = "app/decompile_zone/projects"

@@ -12,19 +12,19 @@ def get_assembly_code(elffile, mode, VERBOSE):
     ops = code.data()
 
     addr = code['sh_addr']
-    output('+', 2, f'First address : {addr}')
+    output('+', 2, f'Base address: {addr}')
 
     if mode == 32:
         md = Cs(CS_ARCH_X86, CS_MODE_32)
     elif mode == 64:
         md = Cs(CS_ARCH_X86, CS_MODE_64) 
-    output('+', 2, 'arch : x86.')
-    output('+', 2, f'mode : {mode} bit.')
+    output('+', 2, 'Architecture: x86.')
+    output('+', 2, f'Mode : {mode} bit.')
 
     assembly_code = []
     for i in md.disasm(ops, addr):        
         instruction = f'0x{i.address:x}:\t{i.mnemonic}\t{i.op_str}'
         output('info', 2, instruction) if VERBOSE else None
         assembly_code.append(instruction)
-    output('+', 1, 'Getting assembly code done.')
+    output('+', 1, 'Retrieved assembly code.')
     return assembly_code

@@ -23,7 +23,7 @@ def get_rodata(elffile, VERBOSE):
                     output('info', 2, readable_line) if VERBOSE else None
                     rodata_list.append(readable_line)
             offset += len(line) + 1
-        output('+', 1, 'Getting .rodata done.')
+        output('+', 1, 'Retrieved .rodata section.')
     except UnicodeDecodeError as e:
         output("-", 1, f'Error decoding .rodata: {e}')
     return rodata_list
