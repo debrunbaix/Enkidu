@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import subprocess
 import shutil
 import os
@@ -23,8 +24,11 @@ def get_disassembly_code(BINARY_NAME: str, TARGET_FILE_PATH: str, DISASSEMBLY_CO
         obtain decompiled code
     """
     output("+", 0, "Decompiling Binary:")
+    env_path = os.path.join(os.path.dirname(__file__), '.env')
+    load_dotenv(env_path)
 
-    ghidra_headless = "/usr/local/bin/ghidra_10.4_PUBLIC/support/analyzeHeadless"
+    ghidra_headless = os.getenv('GHIDRA_HEADLESS_PATH')
+    #ghidra_headless = "/usr/local/bin/ghidra_10.4_PUBLIC/support/analyzeHeadless"
     project_path = "app/decompile_zone/projects"
     script_path = "app/decompile_zone/script"
     post_script = "decompiler.py"

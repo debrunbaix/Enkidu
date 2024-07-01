@@ -131,12 +131,12 @@ cd enkidu
 
 ```
 
-3. Installer les dépendances :
+3. Installer les dépendances et outils:
 
 ```bash
-source venv/bin/activate
-python3 -m pip install -m requirement.txt
+chmod +x setup.sh
 
+./setup.sh
 ```
 ---
 
