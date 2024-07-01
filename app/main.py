@@ -4,13 +4,14 @@
 import datetime
 import argparse
 import time
+import sys
 import os
 
 #
 # Enkidu modules
 #
 from app.decompile_zone.get_disassembly_code import get_disassembly_code
-from app.ai_assist.ai_analyse import pseudoC_to_readableC
+from app.ai_assist.ai_analyse import pseudoc_to_readablec
 from app.exploit_test.exploit_test import exploit_test
 from app.enumeration.enum import launch_enum_cmd
 from app.output_functions import output, TITLE
@@ -50,7 +51,10 @@ TODAY_DATE = datetime.datetime.now().strftime("%Y-%m-%d")
 REPORT_FOLDER_OUPUT = f"{BINARY_NAME}_report_{TODAY_DATE}"
 DISASSEMBLY_CODE_PATH = f"{REPORT_FOLDER_OUPUT}/disassembly_code"
 
-def main():
+def main() -> int:
+    '''
+        main function
+    '''
     print(TITLE)
     time.sleep(1)
 
@@ -59,9 +63,9 @@ def main():
     try:
         binary = open(TARGET_FILE_PATH, 'rb')
         output('+', 0, f'Successfully opened {BINARY_NAME} binary.')
-    except:
+    except FileNotFoundError:
         output('-', 0, 'File doesn\'t exist.')
-        exit()
+        sys.exit()
 
     if not os.path.exists(REPORT_FOLDER_OUPUT):
         os.makedirs(REPORT_FOLDER_OUPUT)
@@ -71,7 +75,7 @@ def main():
     launch_enum_cmd(TARGET_FILE_PATH, binary_info, VERBOSE)
 
     # GETTING SOURCE CODE
-    assembly_code, rodata_sections = analyse(binary_info, binary, VERBOSE)
+    assembly_code = analyse(binary_info, binary, VERBOSE)
     disassembly_function = get_disassembly_code(BINARY_NAME, TARGET_FILE_PATH, DISASSEMBLY_CODE_PATH, VERBOSE)
 
     # EXPLOITING/TESTING
@@ -80,7 +84,7 @@ def main():
 
     # AI ASSIST
     if AI_ASSIST :
-        disassembly_function = pseudoC_to_readableC(disassembly_function, DISASSEMBLY_CODE_PATH, VERBOSE) if AI_ASSIST else None
+        disassembly_function = pseudoc_to_readablec(disassembly_function, DISASSEMBLY_CODE_PATH, VERBOSE)
 
     # REPORT GENERATOR
     generate_report(

@@ -229,7 +229,7 @@ Enkidu/
 └── venv/                           # Environnement virtuel Python
 ```
 
-### Fichier : main.py
+### Modules
 
 - [main.py](app/README.md)
 
@@ -238,6 +238,8 @@ Enkidu/
 - [/analyse](app/analyse/README.md)
 
 - [/decompiler](app/decompile_zone/README.md)
+
+- [/ai_assist](app/ai_assist/README.md)
 
 ---
 

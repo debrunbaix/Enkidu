@@ -18,7 +18,10 @@ _______________________________________________
 _______________________________________________
     ''' + NO_COLOR
 
-def output(log_type, indent, message):
+def output(log_type: str, indent: int, message: str) -> str:
+    '''
+        function to output logs
+    '''
     tab = '    ' * indent if indent > 0 else ''
     if log_type == '+':
         log_type = GREEN + log_type + NO_COLOR

@@ -4,10 +4,12 @@ import markdown
 from weasyprint import HTML, CSS
 from app.output_functions import output
 
-#
-# Function to put content on a list
-#
-def create_report_content(binary_info, file_path, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH, exploit_object):
+def create_report_content(binary_info: dict, file_path: str, assembly_code: str, 
+                          fuzz_output: str, disassembly_function: dict, DISASSEMBLY_CODE_PATH: str, 
+                          exploit_object: dict) -> str:
+    """
+        create report content on a list
+    """
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     report = []
 
@@ -15,8 +17,7 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output, di
     # Title
     #
     report.append(f"# Report for {binary_info['name']} at {today}\n")
-    report.append(f"## Enkidu by Debrunbaix.\n")
-    
+    report.append("## Enkidu by Debrunbaix.\n")
     report.append("<div></div>")
 
     #
@@ -37,7 +38,6 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output, di
     # Enumeration part
     #
     report.append("## Enumeration\n")
-    
     report.append("### Binary Information\n")
     report.append("<table>")
     report.append("<tr>")
@@ -106,20 +106,19 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output, di
     report.append("> This information comes from the **checksec** command.\n")
 
     report.append("<div></div>")
-    
     report.append("### Strings\n")
     for string in binary_info.get('printed strings', []):
         report.append(f"- {string}")
     report.append("> This information comes from Binary secions and the **strings** command.\n")
-    
     report.append("\n### Vulnerable Functions\n")
+
     if 'vulnerable_functions' in binary_info:
         for func in binary_info['vulnerable_functions']:
             report.append(f"- {func}")
     else:
         report.append("- No vulnerable functions identified\n")
-    
     report.append("\n### Libraries\n")
+    
     for lib in binary_info.get('library', []):
         report.append(f"- {lib}")
     report.append("> This information comes from the **ldd** command.\n")
@@ -177,20 +176,33 @@ def create_report_content(binary_info, file_path, assembly_code, fuzz_output, di
     
     return "\n".join(report)
 
-def markdown_to_html(md_text):
+def markdown_to_html(md_text: str):
+    """
+        convert markdown to html 
+    """
     return markdown.markdown(md_text, extensions=['fenced_code'])
 
-def write_html_file(html_content, html_path):
+def write_html_file(html_content: str, html_path: str):
+    """
+        write html report from content
+    """
     with open(html_path, 'w', encoding='utf-8') as html_file:
         html_file.write(html_content)
 
-def convert_html_to_pdf(html_path, pdf_path, css_path=None):
+def convert_html_to_pdf(html_path: str, pdf_path: str, css_path=None):
+    """
+        convert html report to PDF
+    """
     html = HTML(html_path)
     css = CSS(css_path) if css_path else None
     html.write_pdf(pdf_path, stylesheets=[css] if css else None)
 
-def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH, exploit_object): 
-
+def generate_report(binary_info: dict, file_path: str, report_folder: str, assembly_code: list, 
+                    fuzz_output: str, disassembly_function: dict, DISASSEMBLY_CODE_PATH: str, 
+                    exploit_object: dict) -> int: 
+    '''
+        generale function to create content and all report
+    '''
     output('+', 0, 'Generating report:')
 
     # Définition des chemins pour les fichiers du rapport
@@ -200,10 +212,11 @@ def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_o
     css_path = 'app/styles/styles.css'  # Assurez-vous que le chemin vers le fichier CSS est correct
 
     # Création du contenu du rapport, écriture en Markdown, conversion en HTML et en PDF
-    report_content = create_report_content(binary_info, file_path, assembly_code, fuzz_output, disassembly_function, DISASSEMBLY_CODE_PATH, exploit_object)
+    report_content = create_report_content(binary_info, file_path, assembly_code, fuzz_output, 
+                                           disassembly_function, DISASSEMBLY_CODE_PATH, exploit_object)
     with open(md_path, 'w', encoding='utf-8') as md_file:
         md_file.write(report_content)
-    
+
     output('+', 1, f'Markdown report created: {md_path}')
 
     html_content = markdown_to_html(report_content)
@@ -214,3 +227,5 @@ def generate_report(binary_info, file_path, report_folder, assembly_code, fuzz_o
     convert_html_to_pdf(html_path, pdf_path, css_path)
 
     output('+', 1, f'PDF report created: {pdf_path}')
+
+    return 1

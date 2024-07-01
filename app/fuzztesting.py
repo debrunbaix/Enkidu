@@ -1,8 +1,10 @@
 import subprocess
 from app.output_functions import output
 
-def fuzztest(binary_info, path, VERBOSE):
-
+def fuzztest(binary_info: dict, path: str, VERBOSE: bool) -> dict:
+    '''
+        to test all string from the binary in input.
+    '''
     output('+', 0, 'Fuzz testing level 0:')
     wordlist = binary_info['printed strings']
 
@@ -13,8 +15,8 @@ def fuzztest(binary_info, path, VERBOSE):
 
     for string in wordlist:
 
-        FUZZ_CMD = f'echo "{string}" | ./{path}'
-        result = subprocess.run(FUZZ_CMD, shell=True, text=True, capture_output=True)
+        fuzz_cmd = f'echo "{string}" | ./{path}'
+        result = subprocess.run(fuzz_cmd, shell=True, text=True, capture_output=True, check=False)
         success = result.stdout
         error = result.stderr
 
