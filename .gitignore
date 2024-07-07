@@ -6,3 +6,5 @@ app/analyse/__pycache__
 app/enumeration/__pycache__
 app/exploit_test/__pycache__
 app/decompile_zone/__pycache__
+
+ghidra/
