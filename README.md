@@ -181,7 +181,7 @@ options:
 
 ### Tester Enkidu avec une VM
 
-- Une machine virtuelle est mise à disposition ici: https://www.swisstransfer.com/d/de9efa28-2764-412b-bf45-8978bf5574b7 pour essayer l'outil sur un système x86.
+- Une machine virtuelle est mise à disposition ici: https://www.swisstransfer.com/d/de9efa28-2764-412b-bf45-8978bf5574b7 (mot de passe : enkidu) pour essayer l'outil sur un système x86.
 
 - Dans la VM:
 
