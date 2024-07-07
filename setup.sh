@@ -94,4 +94,3 @@ echo "GHIDRA_HEADLESS_PATH=$GHIDRA_INSTALL_PATH/support/analyzeHeadless" > app/d
 # Notify user of successful installation
 print_success "Installation completed successfully."
 print_info "To activate the virtual environment, run: source venv/bin/activate"
-

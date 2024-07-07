@@ -138,6 +138,13 @@ chmod +x setup.sh
 
 ./setup.sh
 ```
+
+4. Pour utiliser l'option IA, créé une clé api openai puis:
+
+```bash
+echo "OPENAI_API_KEY=<openaiAPIkey>" > app/ai_assist/.env #(si vous avec une clé API openai)
+```
+
 ---
 
 ## Utilisation
@@ -171,6 +178,24 @@ options:
   -v, --verbose         Affiche plus d\'informations sur l\'execution en cours
   -ai, --aiAssist       Permet d\'améliorer la compréhension des résultats grâce à l\'API de ChatGPT.
 ```
+
+### Tester Enkidu avec une VM
+
+- Une machine virtuelle est mise à disposition dans le dossier `VM-TEST` pour essayer l'outil sur un système x86.
+
+- Dans la VM:
+
+    - ouvrir un terminal
+
+    - `cd Enkidu`
+
+    - `echo "OPENAI_API_KEY=<openaiAPIkey>" > app/ai_assist/.env` (si vous avec une clé API openai)
+
+    - `source venv/bin/activate`
+
+    - `python3 -m app.main -t app/testFile/login -ai` (si vous avec une clé API openai)
+
+    - `python3 -m app.main -t app/testFile/login` (si vous n'avez pas de clé API openai)
 
 ---
 

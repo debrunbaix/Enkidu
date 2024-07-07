@@ -88,9 +88,9 @@ def main() -> int:
 
     # REPORT GENERATOR
     generate_report(
-        binary_info, 
-        TARGET_FILE_PATH, 
-        REPORT_FOLDER_OUPUT, 
+        binary_info,
+        TARGET_FILE_PATH,
+        REPORT_FOLDER_OUPUT,
         assembly_code,
         fuzz_output_0,
         disassembly_function,
