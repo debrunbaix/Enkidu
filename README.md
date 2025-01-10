@@ -179,24 +179,6 @@ options:
   -ai, --aiAssist       Permet d\'améliorer la compréhension des résultats grâce à l\'API de ChatGPT.
 ```
 
-### Tester Enkidu avec une VM
-
-- Une machine virtuelle est mise à disposition ici: https://www.swisstransfer.com/d/de9efa28-2764-412b-bf45-8978bf5574b7 (mot de passe : enkidu) pour essayer l'outil sur un système x86.
-
-- Dans la VM:
-
-    - ouvrir un terminal
-
-    - `cd Enkidu`
-
-    - `echo "OPENAI_API_KEY=<openaiAPIkey>" > app/ai_assist/.env` (si vous avec une clé API openai)
-
-    - `source venv/bin/activate`
-
-    - `python3 -m app.main -t app/testFile/login -ai` (si vous avec une clé API openai)
-
-    - `python3 -m app.main -t app/testFile/login` (si vous n'avez pas de clé API openai)
-
 ---
 
 ## Documentation
